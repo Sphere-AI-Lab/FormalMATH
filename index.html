@@ -1,0 +1,3055 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>FormalMATH-Bench</title>
+    <style>
+        .hidden {
+            display: none;
+        }
+    </style>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://kit.fontawesome.com/f8ddf9854a.js" crossorigin="anonymous"></script>
+  <meta charset="utf-8">
+  <meta name="description"
+        content="A Massive Multi-discipline Multimodal Understanding and Reasoning Benchmark for Expert AGI">
+  <meta name="keywords" content="MMMU, LMM, LMM Evaluation, Vision Language Model, Large Language Model, Large Multimodal Model, artificial intelligence, AI, AGI, artificial general intelligence">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title> FormalMATH: Benchmarking Formal Mathematical Reasoning of Large Language Models </title>
+
+  <link rel="icon" href="./static/images/logo_transparent.png">
+
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro" rel="stylesheet">
+
+  <link rel="stylesheet" href="./static/css/bulma.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-carousel.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-slider.min.css">
+  <link rel="stylesheet" href="./static/css/fontawesome.all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="./static/css/index.css">
+  <link rel="stylesheet" href="./static/css/leaderboard.css">
+  <script type="text/javascript" src="static/js/sort-table.js" defer></script>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script defer src="./static/js/fontawesome.all.min.js"></script>
+  <script src="./static/js/bulma-carousel.min.js"></script>
+  <script src="./static/js/bulma-slider.min.js"></script>
+  <script src="./static/js/index.js"></script>
+  <script src="./static/js/question_card.js"></script>
+  <script src="./data/results/data_setting.js" defer></script>
+  <script src="./data/results/model_scores.js" defer></script>
+  <script src="./visualizer/data/data_public.js" defer></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/tablesort/5.2.1/tablesort.min.js"></script>
+
+</head>
+<body>
+
+<nav class="navbar" role="navigation" aria-label="main navigation">
+  <div class="navbar-brand">
+    <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+    </a>
+  </div>
+</nav>
+
+
+<section class="hero">
+  <div class="hero-body">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column has-text-centered">
+          <h1 class="title is-1 publication-title is-bold">
+            <img src="static/images/logo_transparent.png" style="width:1em;vertical-align: middle" alt="Logo"/> 
+            <span class="mmmu" style="vertical-align: middle">FormalMATH-Bench</span>
+            </h1>
+          <h2 class="subtitle is-3 publication-subtitle">
+            FormalMATH: Benchmarking Formal Mathematical Reasoning of Large Language Models
+          </h2>
+          <div class="is-size-5 publication-authors">
+            <span class="author-block">
+              <a href="https://scholar.google.com/citations?user=qUMjnPcAAAAJ&hl=en" style="text-decoration: none; color: inherit;">Zhouliang Yu<sup style="color:#ed4b82;">†</sup><sup style="color:#6fbf73;">1</sup><sup style="color:#fd7e14;">2</sup><sup style="color:#dc3545;">3</sup></a>,
+            </span>
+            <span class="author-block">
+              <a href="https://scholar.google.com.sg/citations?user=l_eLH4MAAAAJ&hl=en&scioq=GLaMM" style="text-decoration: none; color: inherit;">Ruotian Peng<sup style="color:#ed4b82;">†</sup><sup style="color:#007bff;">4</sup></a>
+              ,
+            </span>
+            <span class="author-block">
+              <a href="https://openreview.net/profile?id=~Keyi_Ding1" style="text-decoration: none; color: inherit;">Keyi Ding<sup style="color:#ed4b82;">†</sup><sup style="color:#dc3545;">3</sup></a>
+              ,
+            </span>
+          <span class="author-block">
+              <a href="https://openreview.net/profile?id=~Yizhe_Li2" style="text-decoration: none; color: inherit;">Yizhe Li<sup style="color:#9b51e0;">5</sup></a>
+              ,
+          </span>
+          <span class="author-block">
+              <a href="https://pengzhongyuan-casia.github.io/" style="text-decoration: none; color: inherit;">Zhongyuan Peng<sup style="color:#dc3545;">3</sup></a>
+          </span>
+          <span class="author-block">
+              <a href="https://huggingface.co/Liam-Liu" style="text-decoration: none; color: inherit;">Minghao Liu<sup style="color:#9b51e0;">5</sup></a>
+              ,
+          </span>
+          <span class="author-block">
+              <a href="https://github.com/yifanzhang-pro" style="text-decoration: none; color: inherit;">Yifan Zhang<sup style="color:#ffc107;">6</sup></a>
+              ,
+          </span>
+            <span class="author-block">
+                <a href="https://scholar.google.com/citations?hl=zh-CN&user=kRgiVnUAAAAJ" style="text-decoration: none; color: inherit;">Zheng Yuan<sup style="color:#dc3545;">3</sup></a>
+                ,
+            </span>
+          <span class="author-block">
+            <a href="https://xinhuajian.wordpress.com/" style="text-decoration: none; color: inherit;">Huajian Xin<sup style="color:#dc3545;">3</sup></a>
+            ,
+          </span>
+          <span class="author-block">
+            <a href="https://scholar.google.com.hk/citations?user=OdE3MsQAAAAJ&hl=zh-CN&oi=ao" style="text-decoration: none; color: inherit;">Wenhao Huang<sup style="color:#dc3545;">3</sup></a>
+            ,
+          </span>
+          <span class="author-block">
+            <a href="https://ydwen.github.io/" style="text-decoration: none; color: inherit;">Yandong Wen<sup style="color:#007bff;">4</sup></a>
+              ,
+          </span>
+          <span class="author-block">
+              <a href="https://scholar.google.com/citations?user=qyTrq4kAAAAJ&hl=zh-CN" style="text-decoration: none; color: inherit;">Ge Zhang<sup style="color:#dc3545;">3</sup></a>
+              ,
+          </span>
+          <span class="author-block">
+            <a href="https://wyliu.com/" style="text-decoration: none; color: inherit;">Weiyang Liu<sup style="color:#28a745;">7</sup></a>
+            ,
+          </span>
+          </div>
+          
+          <br>
+          
+          <div class="is-size-5 publication-authors">
+            <span class="author-block"><sup style="color:#6fbf73;">1</sup>The Chinese University of Hong Kong,</span>
+            <span class="author-block"><sup style="color:#fd7e14;">2</sup>Numina,</span>
+            <span class="author-block"><sup style="color:#dc3545;">3</sup>M-A-P,</span>
+            <span class="author-block"><sup style="color:#007bff;">4</sup>Westlake University,</span>
+            <span class="author-block"><sup style="color:#9b51e0;">5</sup>2077AI,</span><br>
+            <span class="author-block"><sup style="color:#ffc107;">6</sup>University of California, Los Angeles,</span><br>
+            <span class="author-block"><sup style="color:#28a745;">7</sup>Max Planck Institute for Intelligent Systems, Tübingen,</span><br>
+            <span class="author-block"><sup style="color:#ed4b82;">†</sup>Equal Contributions</span>
+          </div>
+
+          <br>
+          
+
+          <div class="column has-text-centered">
+            <div class="publication-links">
+              <!-- PDF Link. -->
+              <span class="link-block">
+                <!-- @PAN TODO: change links -->
+                <a href="https://arxiv.org/abs/2408.08313"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fas fa-file-pdf"></i>
+                  </span>
+                  <span>Paper</span>
+                </a>
+              </span>
+              <span class="link-block">
+                <a href="https://huggingface.co/datasets/SphereLab/FormalMATH"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <!-- <i class="far fa-images"></i> -->
+                      <p style="font-size:18px">🤗</p>
+                      <!-- 🔗 -->
+                  </span>
+                  <span>Dataset</span>
+                </a>
+              </span>
+              <span class="link-block">
+                <a href="https://github.com/sgp-bench/sgp-bench"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fab fa-github"></i>
+                  </span>
+                  <span>Code</span>
+                  </a>
+              </span>
+              <!-- Dataset Link. -->
+              
+              <!-- Leaderboard Link. -->
+              <span class="link-block">
+                <a href="#toggleButton"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon has-text-white">
+                    <!-- <i class="fa-solid fa-trophy"></i>  -->
+                      <p style="font-size:18px">🏆</p>
+                  </span>
+                  <span>Leaderboard</span>
+                </a>
+              </span>
+
+            
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<style>
+  .center {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 80%;
+  }
+  </style>
+<!-- <section class="hero teaser">
+  <div class="container is-max-desktop">
+        <div class="content has-text-centered">
+          <img src="static/images/teaser_sgp.png" alt="geometric reasoning" width="100%"/>
+          <p> Our symbolic graphics program understanding benchmark evaluates both semantic understanding and consistency</p>
+        </div>
+    </div>
+  </div>
+</section> -->
+
+<section class="section">
+  <div class="container" style="margin-bottom: 2vh;">
+    <!-- Abstract. -->
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Can LLMs perform formal mathematical reasoning?</h2>
+        <div class="content has-text-justified">
+          <p>
+            Formal mathematical reasoning is a cornerstone of human intelligence and remains an open challenge for AI systems. Progress is hindered by existing benchmarks’ limitations in scope and scale. We introduce FormalMATH, a large-scale Lean4 benchmark comprising 5,560 formally verified mathematical statements spanning diverse domains (algebra, statistics, calculus, number theory, and discrete mathematics) and difficulty levels (from high-school olympiads to undergraduate theorems). To address inefficiencies in manual formalization, we propose a human-in-the-loop pipeline integrating autoformalization (through specialized language models), multi-agent consistency checks, and automated proof filtering, significantly reducing annotation costs. Evaluations of state-of-the-art provers reveal critical limitations: persistent domain bias toward high-school-level algebra and number theory, reliance on over-simplified tactics, and ineffectiveness of natural language proof guidance. FormalMATH provides a robust benchmark for advancing automated formal reasoning and identifying critical weaknesses in current systems.
+          </p>
+        </div>
+      </div>
+    </div>
+    <!--/ Abstract. -->
+  </div>
+</section>
+<div class="container">
+  <div class="columns is-centered m-6">
+    <div class="column is-full has-text-centered content">
+      <button id="toggleButton" onclick="changeButtonText()" style="font-size: 1.75rem; font-weight: bold;">
+        <b>FormalMATH-All Leaderboard</b> (Click to Switch)
+      </button>
+      <div class="model-labels-container">
+          <span class="leaderboard-label" style="background-color: rgba(249, 242, 248, 1);">Best-First Tree-Search Methods</span>
+          <span class="leaderboard-label" style="background-color: rgba(255, 208, 80, 0.15);">Single-Pass Generation Methods</span>
+      </div>
+        <!-- Validation Set Leaderboard -->
+        <table id="table1" class="js-sort-table">
+          <tr>
+            <td class="js-sort-number"><strong>Reset</strong></td>
+            <td class="js-sort-string"><strong>Size</strong></td>
+            <td class="js-sort-date"><strong>Date</strong></td>
+            <td class="js-sort-number"><strong>Sampling Budget</strong></td>
+            <td class="js-sort-number"><strong>Overall</strong></td>
+
+            <!-- <td class="js-sort-number"><strong>Count</strong></td>
+            <td class="js-sort-number"><strong>Color</strong></td>
+            <td class="js-sort-number"><strong>Shape</strong></td>
+            <td class="js-sort-number"><strong>Reasoning</strong></td> -->
+          </tr>
+          <tr style="background-color: rgba(249, 242, 248, 1);">
+            <td style="text-align: left;">
+              <a href="https://github.com/MoonshotAI/Kimina-Prover-Preview/tree/master">
+                  <b>Kimina-Prover</b>
+              </a>
+            </td>
+            <td>7B</td>
+            <td>2025-4-14</td>
+            <td>32</td>
+            <td>16.46</td>
+            <!-- <td>45.9</td>
+            <td>56.8</td>
+            <td>87.3</td>
+            <td>75.2</td>
+            <td>50.4</td> -->
+          </tr>
+          <tr style="background-color: rgba(249, 242, 248, 1);">
+            <td style="text-align: left;">
+              <a href="https://github.com/kfdong/STP?tab=readme-ov-file">
+                  <b>STP</b>
+              </a>
+            </td>
+            <td>7B</td>
+            <td>2025-03-20</td>
+            <td>32</td>
+            <td>13.87</td>
+            <!-- <td>78.7</td>
+            <td>55.3</td>
+            <td>83.2</td>
+            <td>69.6</td>
+            <td>47.1</td> -->
+          </tr>
+          <tr style="background-color: rgba(249, 242, 248, 1);">
+            <td style="text-align: left;">
+              <a href="https://github.com/Goedel-LM/Goedel-Prover">
+                  <b>Goedel-Prover-SFT</b>
+              </a>
+            </td>
+            <td>7B</13td>
+            <td>2025-02-11</td>
+            <td>32</td>
+            <td>13.53</td>
+            <!-- <td>39.8</td>
+            <td>50.4</td>
+            <td>79.1</td>
+            <td>70.9</td>
+            <td>41.4</td> -->
+          </tr>
+          <tr style="background-color: rgba(249, 242, 248, 1);">
+            <td style="text-align: left;">
+              <a href="https://github.com/deepseek-ai/DeepSeek-Prover-V1.5">
+                  <b>DeepSeek-V1.5-RL</b>
+              </a>
+            </td>
+            <td>7B</td>
+            <td>2024-08-15</td>
+            <td>32</td>
+            <td>10.18</td>
+            <!-- <td>76.4</td>
+            <td>53.9</td>
+            <td>83.2</td>
+            <td>68.7</td>
+            <td>41.2</td> -->
+          </tr>
+          <tr style="background-color: rgba(249, 242, 248, 1);">
+            <td style="text-align: left;">
+              <a href="https://github.com/deepseek-ai/DeepSeek-Prover-V1.5">
+                  <b>DeepSeek-V1.5-SFT</b>
+              </a>
+            </td>
+            <td>7B</td>
+            <td>2024-08-15</td>
+            <td>32</td>
+            <td>8.97</td>
+            <!-- <td>76.4</td>
+            <td>53.9</td>
+            <td>83.2</td>
+            <td>68.7</td>
+            <td>41.2</td> -->
+          </tr>
+          <tr style="background-color: rgba(255, 208, 80, 0.15);">
+            <td style="text-align: left;">
+              <a href="https://github.com/InternLM/InternLM-Math">
+                  <b>InternLM-Prover</b>
+              </a>
+            </td>
+            <td>7B</td>
+            <td>2024-10-21</td>
+            <td>1×32×100</td>
+            <td>11.13</td>
+            <!-- <td>26.4</td>
+            <td>39.8</td>
+            <td>75.0</td>
+            <td>61.0</td>
+            <td>30.1</td> -->
+          </tr>
+          <tr style="background-color: rgba(255, 208, 80, 0.15);">
+            <td style="text-align: left;">
+              <a href="https://huggingface.co/ByteDance-Seed/BFS-Prover">
+                  <b>BFS-Prover</b>
+              </a>
+            </td>
+            <td>7B</td>
+            <td>2025-2-25</td>
+            <td>1×32×100</td>
+            <td>1.16</td>
+            <!-- <td>26.4</td>
+            <td>39.8</td>
+            <td>75.0</td>
+            <td>61.0</td>
+            <td>30.1</td> -->
+          </tr>
+        </table>
+          <p class="validation-desc"> Overall results of different models on the FormalMATH-All.</p>
+        <!-- SGP-Bench (CAD) Leaderboard -->
+        <table id="table2" class="js-sort-table hidden">
+          <tr>
+            <td class="js-sort-number"><strong>Reset</strong></td>
+            <td class="js-sort-string"><strong>Size</strong></td>
+            <td class="js-sort-date"><strong>Date</strong></td>
+            <td class="js-sort-number"><strong>Sampling Budget</strong></td>
+            <td class="js-sort-number"><strong>Overall</strong></td>
+            <!-- <td class="js-sort-number"><strong>3D</strong></td>
+            <td class="js-sort-number"><strong>3D<sub>recon</sub></strong></td>
+            <td class="js-sort-number"><strong>2D</strong></td> -->
+          </tr>
+          <tr style="background-color: rgba(249, 242, 248, 1);">
+            <td style="text-align: left;">
+              <a href="https://github.com/MoonshotAI/Kimina-Prover-Preview/tree/master">
+                  <b>Kimina-Prover</b>
+              </a>
+            </td>
+            <td>7B</td>
+            <td>2025-4-14</td>
+            <td>32</td>
+            <td>48.94</td>
+            <!-- <td>45.9</td>
+            <td>56.8</td>
+            <td>87.3</td>
+            <td>75.2</td>
+            <td>50.4</td> -->
+          </tr>
+          <tr style="background-color: rgba(249, 242, 248, 1);">
+            <td style="text-align: left;">
+              <a href="https://github.com/kfdong/STP?tab=readme-ov-file">
+                  <b>STP</b>
+              </a>
+            </td>
+            <td>7B</td>
+            <td>2025-03-20</td>
+            <td>32</td>
+            <td>48.59</td>
+            <!-- <td>78.7</td>
+            <td>55.3</td>
+            <td>83.2</td>
+            <td>69.6</td>
+            <td>47.1</td> -->
+          </tr>
+          <tr style="background-color: rgba(249, 242, 248, 1);">
+            <td style="text-align: left;">
+              <a href="https://github.com/kfdong/STP?tab=readme-ov-file">
+                  <b>STP</b>
+              </a>
+            </td>
+            <td>7B</td>
+            <td>2025-03-20</td>
+            <td>3200</td>
+            <td>53.17</td>
+            <!-- <td>78.7</td>
+            <td>55.3</td>
+            <td>83.2</td>
+            <td>69.6</td>
+            <td>47.1</td> -->
+          </tr>
+          <tr style="background-color: rgba(249, 242, 248, 1);">
+            <td style="text-align: left;">
+              <a href="https://github.com/Goedel-LM/Goedel-Prover">
+                  <b>Goedel-Prover-SFT</b>
+              </a>
+            </td>
+            <td>7B</13td>
+            <td>2025-02-11</td>
+            <td>32</td>
+            <td>46.70</td>
+            <!-- <td>39.8</td>
+            <td>50.4</td>
+            <td>79.1</td>
+            <td>70.9</td>
+            <td>41.4</td> -->
+          </tr>
+          <tr style="background-color: rgba(249, 242, 248, 1);">
+            <td style="text-align: left;">
+              <a href="https://github.com/Goedel-LM/Goedel-Prover">
+                  <b>Goedel-Prover-SFT</b>
+              </a>
+            </td>
+            <td>7B</13td>
+            <td>2025-02-11</td>
+            <td>3200</td>
+            <td>49.41</td>
+            <!-- <td>39.8</td>
+            <td>50.4</td>
+            <td>79.1</td>
+            <td>70.9</td>
+            <td>41.4</td> -->
+          </tr>
+          <tr style="background-color: rgba(249, 242, 248, 1);">
+            <td style="text-align: left;">
+              <a href="https://github.com/deepseek-ai/DeepSeek-Prover-V1.5">
+                  <b>DeepSeek-V1.5-RL</b>
+              </a>
+            </td>
+            <td>7B</td>
+            <td>2024-08-15</td>
+            <td>32</td>
+            <td>47.98</td>
+            <!-- <td>76.4</td>
+            <td>53.9</td>
+            <td>83.2</td>
+            <td>68.7</td>
+            <td>41.2</td> -->
+          </tr>
+          <tr style="background-color: rgba(249, 242, 248, 1);">
+            <td style="text-align: left;">
+              <a href="https://github.com/deepseek-ai/DeepSeek-Prover-V1.5">
+                  <b>DeepSeek-V1.5-RL</b>
+              </a>
+            </td>
+            <td>7B</td>
+            <td>2024-08-15</td>
+            <td>3200</td>
+            <td>50.35</td>
+            <!-- <td>76.4</td>
+            <td>53.9</td>
+            <td>83.2</td>
+            <td>68.7</td>
+            <td>41.2</td> -->
+          </tr>
+          <tr style="background-color: rgba(249, 242, 248, 1);">
+            <td style="text-align: left;">
+              <a href="https://github.com/deepseek-ai/DeepSeek-Prover-V1.5">
+                  <b>DeepSeek-V1.5-SFT</b>
+              </a>
+            </td>
+            <td>7B</td>
+            <td>2024-08-15</td>
+            <td>32</td>
+            <td>40.40</td>
+            <!-- <td>76.4</td>
+            <td>53.9</td>
+            <td>83.2</td>
+            <td>68.7</td>
+            <td>41.2</td> -->
+          </tr>
+          <tr style="background-color: rgba(249, 242, 248, 1);">
+            <td style="text-align: left;">
+              <a href="https://github.com/deepseek-ai/DeepSeek-Prover-V1.5">
+                  <b>DeepSeek-V1.5-SFT</b>
+              </a>
+            </td>
+            <td>7B</td>
+            <td>2024-08-15</td>
+            <td>3200</td>
+            <td>46.82</td>
+            <!-- <td>76.4</td>
+            <td>53.9</td>
+            <td>83.2</td>
+            <td>68.7</td>
+            <td>41.2</td> -->
+          </tr>
+          <tr style="background-color: rgba(255, 208, 80, 0.15);">
+            <td style="text-align: left;">
+              <a href="https://github.com/InternLM/InternLM-Math">
+                  <b>InternLM-Prover</b>
+              </a>
+            </td>
+            <td>7B</td>
+            <td>2024-10-21</td>
+            <td>1×32×100</td>
+            <td>7.87</td>
+            <!-- <td>26.4</td>
+            <td>39.8</td>
+            <td>75.0</td>
+            <td>61.0</td>
+            <td>30.1</td> -->
+          </tr>
+          <tr style="background-color: rgba(255, 208, 80, 0.15);">
+            <td style="text-align: left;">
+              <a href="https://github.com/InternLM/InternLM-Math">
+                  <b>InternLM-Prover</b>
+              </a>
+            </td>
+            <td>7B</td>
+            <td>2024-10-21</td>
+            <td>32×32×100</td>
+            <td>25.65</td>
+            <!-- <td>26.4</td>
+            <td>39.8</td>
+            <td>75.0</td>
+            <td>61.0</td>
+            <td>30.1</td> -->
+          </tr>
+          <tr style="background-color: rgba(255, 208, 80, 0.15);">
+            <td style="text-align: left;">
+              <a href="https://huggingface.co/ByteDance-Seed/BFS-Prover">
+                  <b>BFS-Prover</b>
+              </a>
+            </td>
+            <td>7B</td>
+            <td>2025-2-25</td>
+            <td>1×32×100</td>
+            <td>27.10</td>
+            <!-- <td>26.4</td>
+            <td>39.8</td>
+            <td>75.0</td>
+            <td>61.0</td>
+            <td>30.1</td> -->
+          </tr>    
+          <tr style="background-color: rgba(255, 208, 80, 0.15);">
+            <td style="text-align: left;">
+              <a href="https://huggingface.co/ByteDance-Seed/BFS-Prover">
+                  <b>BFS-Prover</b>
+              </a>
+            </td>
+            <td>7B</td>
+            <td>2025-2-25</td>
+            <td>32×32×100</td>
+            <td>45.88</td>
+            <!-- <td>26.4</td>
+            <td>39.8</td>
+            <td>75.0</td>
+            <td>61.0</td>
+            <td>30.1</td> -->
+          </tr>      
+        </table>
+          <p class="test-desc hidden"> Overall results of different models on the FormalMATH-Lite.</p>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- BUILDING SECTION -->
+<section class="hero is-light is-small">
+  <div class="hero-body has-text-centered">
+    <h1 class="title is-1 mmmu">Introduction of FormalMATH</h1>
+  </div>
+</section>
+
+
+
+<!-- <section class="section" style="padding:0;">
+  <div class="container">
+    <section class="hero is-light is-small"> 
+      <div class="hero-body has-text-centered">
+        <h1 class="title is-1 mmmu">Introduction of FormalMATH</h1>
+      </div>
+    </section>
+  </div>
+</section> -->
+
+<section class="section">
+  <div class="container">
+
+    <!-------------------------------------------------------------------- RESULTS SECTION -------------------------------------------------------------------->
+
+    <section class="section">
+      <div class="container">
+        <div class="columns is-centered has-text-centered">
+          <div class="column is-four-fifths">
+            <h2 class="title is-3">What is FormalMATH?</h2>
+            <div class="content has-text-justified">
+              <p>
+                Formal mathematical reasoning (FMR) provides a rigorous axiomatic framework for the automated verification of mathematical proofs. However, due to its complexity and highly specialized nature, even top experts find it challenging to efficiently formalize large theorems. Although recent advances in large language models (LLMs) have significantly promoted progress in the field of FMR, existing mainstream mathematical benchmarks (such as MiniF2F and ProofNet) are still limited in both scale and coverage, making it difficult to comprehensively evaluate and improve the performance of LLMs in formal mathematics.
+              </p>
+              <p>
+                To address these limitations, we introduce FormalMATII—a large-scale, multi-domain formal mathematics benchmark based on Lean4, specifically designed to advance the application of language models in formal mathematical reasoning tasks. Our project offers three main contributions:
+              </p>
+              <p>
+                <strong>Large-scale, Multi-domain Benchmark Dataset:</strong> We release a benchmark containing 5,560 formally verified mathematical statements, covering a wide range of domains such as algebra, geometry, calculus, and discrete mathematics, spanning various difficulty levels. The dataset is over 22 times larger than the widely-used MiniF2F benchmark.
+              </p><p>
+                <strong>Efficient Human-in-the-Loop Autoformalization Pipeline: </strong>We have developed an innovative human-in-the-loop autoformalization pipeline that combines multi-model consistency checking with automated negative-proof filtering, significantly reducing manual annotation costs while achieving an automatic verification accuracy of up to 78.89%.
+              </p>
+              <p>
+                <strong>Comprehensive Evaluation of LLM-based Theorem Provers: </strong>Through systematic evaluation of state-of-the-art LLM-driven theorem provers, we reveal critical limitations in domain generalization and formal reasoning. We also find that, in some cases, natural language guidance can negatively impact automated proving, providing important directions for future research.
+              </p>
+              <br>
+
+              <div id="bar-chart" style="width:100%;height:500px;margin:0 auto;"></div>
+              <figcaption style="text-align:center;">
+                Performance comparison of existing theorem provers on the FormalMATH benchmark.
+              </figcaption>
+              <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+              <script>
+                // 算法名与数据
+                const provers = [
+                  "Kimina-Prover",      // 16.46
+                  "STP",                // 13.87
+                  "Goedel-Prover",      // 13.53
+                  "BFS-Prover",         // 11.13
+                  "DeepSeek-V1.5-RL",   // 10.18
+                  "DeepSeek-V1.5-SFT",  // 8.97
+                  "InternLM-Prover"     // 1.16
+                ];
+                const values = [16.46, 13.87, 13.53, 11.13, 10.18, 8.97, 1.16];
+                const colors = [
+                  "#004182", "#5e87b0", "#85a4c3", "#bf9100", "#bbcdde", "#e6ecf2", "#ffdb3f"
+                ];
+              
+                // 创建多个trace，但确保它们是同一类型的bar
+                const traces = provers.map((prover, idx) => ({
+                  x: [prover],
+                  y: [values[idx]],
+                  type: "bar",
+                  marker: {
+                    color: colors[idx]
+
+                  },
+                  name: prover,
+                  text: [values[idx].toFixed(2)],
+                  textposition: "outside",
+                  textfont: {size: 18, family: "font-family"},
+                  hoverinfo: 'y+name'
+                }));
+              
+                const layout = {
+                  yaxis: {
+                    range: [0, 19],
+                    title: {
+                      text: 'Performance (%)',
+                      font: {size: 20, family: "font-family"}
+                    },
+                    tickfont: {size: 18, family: "font-family"},
+                    showgrid: true,
+                    gridcolor: '#e5e5e5'
+                  },
+                  xaxis: {
+                    tickfont: {size: 20, family: "font-family"},
+                    showline: false,
+                    showgrid: false,
+                    zeroline: false,
+                    showticklabels: false
+                  },
+                  legend: {
+                    traceorder: 'reversed',
+                    orientation: 'h',
+                    x: 0.5,
+                    xanchor: 'center',
+                    y: 1.0,
+                    yanchor: 'bottom',
+                    font: {size: 20, family: "font-family"},
+                    itemwidth: 20,
+                    itemsizing: "constant"
+                  },
+                  margin: {l: 60, r: 40, t: 100, b: 20},
+                  plot_bgcolor: 'white',
+                  paper_bgcolor: 'white',
+                  hovermode: 'closest',
+                  // 关键改动：使用barmode: 'stack'（堆叠模式）而不是'group'
+                  // 这让我们能同时使用多个trace并控制间隙
+                  barmode: 'stack',
+                  // 控制柱子间的间隙
+                  bargap: 0.4,
+                  showlegend: true
+                };
+              
+                // 创建一个不可见的trace作为占位符
+                const invisibleTrace = {
+                  x: provers,
+                  y: Array(provers.length).fill(0),
+                  type: 'bar',
+                  marker: {color: 'rgba(0,0,0,0)'},
+                  showlegend: false,
+                };
+              
+                // 使用全部trace创建图表
+                Plotly.newPlot('bar-chart', [invisibleTrace, ...traces], layout, {displayModeBar: false});
+              </script>
+  </section>
+
+
+  <section class="section">
+    <div class="container">
+      <div class="columns is-centered has-text-centered">
+        <div class="column is-four-fifths">
+          <h2 class="title is-3">Domain Distribution of FormalMATH</h2>
+          <div class="content has-text-justified">
+            <p>
+              FormalMATH covers a broad spectrum of mathematics from high school competition problems to undergraduate-level topics, comprising 5,560 rigorously validated statements. The benchmark includes over seven core disciplines at the high school level—such as algebra, number theory, discrete mathematics, and Euclidean geometry—and more than seven specialized domains at the undergraduate level, including calculus, linear algebra, abstract algebra, and series. Detailed domain distribution is shown in the figure below.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <style>
+    .charts-row {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: flex-start;
+        gap: 0px;
+    }
+    .chart-container {
+        width: 600px;
+        height: 333px;
+    }
+  </style>
+  <div class="charts-row">
+      <div id="ug_pie" class="chart-container"></div>
+      <div id="hs_pie" class="chart-container"></div>
+  </div>
+  <script type="text/javascript" src="https://assets.pyecharts.org/assets/v5/echarts.min.js"></script>
+  <script>
+      // hs option
+      var option_hs = {
+    "animation": true,
+    "animationThreshold": 2000,
+    "animationDuration": 1000,
+    "animationEasing": "cubicOut",
+    "animationDelay": 0,
+    "animationDurationUpdate": 300,
+    "animationEasingUpdate": "cubicOut",
+    "animationDelayUpdate": 0,
+    "aria": {
+        "enabled": false
+    },
+    "color": [
+        "#705300",
+        "#9a7200",
+        "#dea400",
+        "#ffbc01",
+        "#ffd661",
+        "#ffe69f",
+        "#fff2cc",
+        "#fff8e5"
+    ],
+    "series": [
+        {
+            "type": "pie",
+            "colorBy": "data",
+            "legendHoverLink": true,
+            "selectedMode": false,
+            "selectedOffset": 10,
+            "clockwise": true,
+            "startAngle": 160,
+            "minAngle": 0,
+            "minShowLabelAngle": 0,
+            "avoidLabelOverlap": true,
+            "stillShowZeroSum": true,
+            "percentPrecision": 2,
+            "showEmptyCircle": true,
+            "emptyCircleStyle": {
+                "color": "lightgray",
+                "borderColor": "#000",
+                "borderWidth": 0,
+                "borderType": "solid",
+                "borderDashOffset": 0,
+                "borderCap": "butt",
+                "borderJoin": "bevel",
+                "borderMiterLimit": 10,
+                "opacity": 1
+            },
+            "data": [
+                {
+                    "name": "Algebra",
+                    "value": 2553
+                },
+                {
+                    "name": "Number Theory",
+                    "value": 1136
+                },
+                {
+                    "name": "Applied Mathematics",
+                    "value": 457
+                },
+                {
+                    "name": "Discrete Mathematics",
+                    "value": 440
+                },
+                {
+                    "name": "Geometry",
+                    "value": 293
+                },
+                {
+                    "name": "Precalculus",
+                    "value": 98
+                },
+                {
+                    "name": "Calculus",
+                    "value": 96
+                },
+                {
+                    "name": "Other",
+                    "value": 16
+                }
+            ],
+            "radius": [
+                "40%",
+                "70%"
+            ],
+            "center": [
+                "30%",
+                "50%"
+            ],
+            "label": {
+                "show": false,
+                "margin": 8,
+                "fontSize": 12,
+                "fontFamily": "font-family",
+                "formatter": "{b}: {c} ({d}%)",  
+                "valueAnimation": false
+            },
+            "labelLine": {
+                "show": false,
+                "showAbove": false,
+                "length": 15,
+                "length2": 15,
+                "smooth": false,
+                "minTurnAngle": 90,
+                "maxSurfaceAngle": 90
+            },
+            "tooltip": {
+                "show": true,
+                "trigger": "item",
+                "triggerOn": "mousemove|click",
+                "axisPointer": {
+                    "type": "line"
+                },
+                "showContent": true,
+                "alwaysShowContent": false,
+                "showDelay": 0,
+                "hideDelay": 100,
+                "enterable": false,
+                "confine": false,
+                "appendToBody": false,
+                "transitionDuration": 0.4,
+                "formatter": "{a} <br/>{b}: {c} ({d}%)",
+                "textStyle": {
+                    "fontSize": 10
+                },
+                "borderWidth": 0,
+                "padding": 5,
+                "order": "seriesAsc"
+            },
+            "itemStyle": {
+                "borderWidth": 2,
+                "borderRadius": 5
+            },
+            "rippleEffect": {
+                "show": true,
+                "brushType": "stroke",
+                "scale": 2.5,
+                "period": 4
+            }
+        }
+    ],
+    "legend": [
+        {
+            "data": [
+                "Algebra",
+                "Number Theory",
+                "Applied Mathematics",
+                "Discrete Mathematics",
+                "Geometry",
+                "Precalculus",
+                "Calculus",
+                "Other"
+            ],
+            "selected": {},
+            "show": true,
+            "right": "15%",
+            "top": "center",
+            "orient": "vertical",
+            "padding": 5,
+            "itemGap": 10,
+            "itemWidth": 25,
+            "itemHeight": 14,
+            "textStyle": {
+                "fontFamily": "font-family",
+                "fontSize": 13
+            },
+            "backgroundColor": "transparent",
+            "borderColor": "#ccc",
+            "borderRadius": 0,
+            "pageButtonItemGap": 5,
+            "pageButtonPosition": "end",
+            "pageFormatter": "{current}/{total}",
+            "pageIconColor": "#2f4554",
+            "pageIconInactiveColor": "#aaa",
+            "pageIconSize": 15,
+            "animationDurationUpdate": 800,
+            "selector": false,
+            "selectorPosition": "auto",
+            "selectorItemGap": 7,
+            "selectorButtonGap": 10
+        }
+    ],
+    "tooltip": {
+        "show": true,
+        "trigger": "item",
+        "triggerOn": "mousemove|click",
+        "axisPointer": {
+            "type": "line"
+        },
+        "showContent": true,
+        "alwaysShowContent": false,
+        "showDelay": 0,
+        "hideDelay": 100,
+        "enterable": false,
+        "confine": false,
+        "appendToBody": false,
+        "transitionDuration": 0.4,
+        "textStyle": {
+            "fontSize": 10
+        },
+        "borderWidth": 0,
+        "padding": 5,
+        "order": "seriesAsc"
+    },
+    "title": [
+        {
+            "show": true,
+            "text": "High School Domain Distribution",
+            "target": "blank",
+            "subtarget": "blank",
+            "left": "20%",
+            "top": "0%",
+            "padding": 5,
+            "itemGap": 10,
+            "textAlign": "auto",
+            "textVerticalAlign": "auto",
+            "triggerEvent": false,
+            "textStyle": {
+                "fontFamily": "font-family",
+                "fontSize": 16
+            }
+        }
+    ]// hs_pie
+      };
+      // 
+      var option_ug = {
+        "animation": true,
+    "animationThreshold": 2000,
+    "animationDuration": 1000,
+    "animationEasing": "cubicOut",
+    "animationDelay": 0,
+    "animationDurationUpdate": 300,
+    "animationEasingUpdate": "cubicOut",
+    "animationDelayUpdate": 0,
+    "aria": {
+        "enabled": false
+    },
+    "color": [
+        "#396737",
+        "#4e8b4b",
+        "#67ac64",
+        "#8dc08a",
+        "#eff6ee",
+        "#b2d4b0",
+        "#d5e8d4"
+    ],
+    "series": [
+        {
+            "type": "pie",
+            "colorBy": "data",
+            "legendHoverLink": true,
+            "selectedMode": false,
+            "selectedOffset": 10,
+            "clockwise": true,
+            "startAngle": 100,
+            "minAngle": 0,
+            "minShowLabelAngle": 0,
+            "avoidLabelOverlap": true,
+            "stillShowZeroSum": true,
+            "percentPrecision": 2,
+            "showEmptyCircle": true,
+            "emptyCircleStyle": {
+                "color": "lightgray",
+                "borderColor": "#000",
+                "borderWidth": 0,
+                "borderType": "solid",
+                "borderDashOffset": 0,
+                "borderCap": "butt",
+                "borderJoin": "bevel",
+                "borderMiterLimit": 10,
+                "opacity": 1
+            },
+            "data": [
+                {
+                    "name": "Integral",
+                    "value": 145
+                },
+                {
+                    "name": "Precalculus",
+                    "value": 89
+                },
+                {
+                    "name": "Algebra",
+                    "value": 75
+                },
+                {
+                    "name": "Differentiation",
+                    "value": 52
+                },
+                {
+                    "name": "Other",
+                    "value": 45
+                },
+                {
+                    "name": "Multivariable calculus",
+                    "value": 42
+                },
+                {
+                    "name": "Sequences Series",
+                    "value": 23
+                }
+            ],
+            "radius": [
+                "40%",
+                "70%"
+            ],
+            "center": [
+                "40%",
+                "50%"
+            ],
+            "label": {
+                "show": false,
+                "margin": 8,
+                "fontSize": 12,
+                "fontFamily": "font-family",
+                "formatter": "{b}: {c} ({d}%)",
+                "valueAnimation": false
+            },
+            "labelLine": {
+                "show": false,
+                "showAbove": false,
+                "length": 15,
+                "length2": 15,
+                "smooth": false,
+                "minTurnAngle": 90,
+                "maxSurfaceAngle": 90
+            },
+            "tooltip": {
+                "show": true,
+                "trigger": "item",
+                "triggerOn": "mousemove|click",
+                "axisPointer": {
+                    "type": "line"
+                },
+                "showContent": true,
+                "alwaysShowContent": false,
+                "showDelay": 0,
+                "hideDelay": 100,
+                "enterable": false,
+                "confine": false,
+                "appendToBody": false,
+                "transitionDuration": 0.4,
+                "formatter": "{a} <br/>{b}: {c} ({d}%)",
+                "textStyle": {
+                    "fontSize": 10
+                },
+                "borderWidth": 0,
+                "padding": 5,
+                "order": "seriesAsc"
+            },
+            "itemStyle": {
+                "borderWidth": 2,
+                "borderRadius": 5
+            },
+            "rippleEffect": {
+                "show": true,
+                "brushType": "stroke",
+                "scale": 2.5,
+                "period": 4
+            }
+        }
+    ],
+    "legend": [
+        {
+            "data": [
+                "Integral",
+                "Precalculus",
+                "Algebra",
+                "Differentiation",
+                "Other",
+                "Multivariable calculus",
+                "Sequences Series"
+            ],
+            "selected": {},
+            "show": true,
+            "right": "5%",
+            "top": "center",
+            "orient": "vertical",
+            "padding": 5,
+            "itemGap": 10,
+            "itemWidth": 25,
+            "itemHeight": 14,
+            "textStyle": {
+                "fontFamily": "font-family",
+                "fontSize": 13
+            },
+            "backgroundColor": "transparent",
+            "borderColor": "#ccc",
+            "borderRadius": 0,
+            "pageButtonItemGap": 5,
+            "pageButtonPosition": "end",
+            "pageFormatter": "{current}/{total}",
+            "pageIconColor": "#2f4554",
+            "pageIconInactiveColor": "#aaa",
+            "pageIconSize": 15,
+            "animationDurationUpdate": 800,
+            "selector": false,
+            "selectorPosition": "auto",
+            "selectorItemGap": 7,
+            "selectorButtonGap": 10
+        }
+    ],
+    "tooltip": {
+        "show": true,
+        "trigger": "item",
+        "triggerOn": "mousemove|click",
+        "axisPointer": {
+            "type": "line"
+        },
+        "showContent": true,
+        "alwaysShowContent": false,
+        "showDelay": 0,
+        "hideDelay": 100,
+        "enterable": false,
+        "confine": false,
+        "appendToBody": false,
+        "transitionDuration": 0.4,
+        "textStyle": {
+            "fontSize": 10
+        },
+        "borderWidth": 0,
+        "padding": 5,
+        "order": "seriesAsc"
+    },
+    "title": [
+        {
+            "show": true,
+            "text": "Undergraduate Domain Distribution",
+            "target": "blank",
+            "subtarget": "blank",
+            "left": "27%",
+            "top": "0%",
+            "padding": 5,
+            "itemGap": 10,
+            "textAlign": "auto",
+            "textVerticalAlign": "auto",
+            "triggerEvent": false,
+            "textStyle": {
+                "fontFamily": "font-family",
+                "fontSize": 16
+            }
+        }
+    ]// 
+      };
+
+      var chart_ug = echarts.init(document.getElementById('ug_pie'), 'white', {renderer: 'canvas'});
+      chart_ug.setOption(option_ug);
+
+      var chart_hs = echarts.init(document.getElementById('hs_pie'), 'white', {renderer: 'canvas'});
+      chart_hs.setOption(option_hs);
+  </script>
+
+  <section class="section">
+    <div class="container">
+      <div class="columns is-centered has-text-centered">
+        <div class="column is-four-fifths">
+          <h2 class="title is-3">Automated Dataset Creation Pipeline</h2>
+          <div class="content has-text-justified">
+            <p>
+              FormalMATH implements an efficient automated dataset creation pipeline, integrating advanced language models with multi-layered validation strategies. We leverage foundation and theorem-proving LLMs (such as Qwen2.5, Deepthecprover-base, GPT-4, etc.) to generate formal Lean4 statements via a best-N sampling and compile-and-filter approach. Next, semantic alignment is automatically verified using multiple powerful LLMs employing chain-of-thought back-translation. Negation-based disproof strategies and automated theorem provers are integrated to further filter out invalid statements. Finally, 12 IMO medalist-level experts conduct audit-level human verification to ensure the final dataset quality. This pipeline greatly improves efficiency, preserving 78.89% of statements at the pre-verification stage while substantially reducing manual verification efforts.
+            </p>
+            <br>
+            <img src="static/images/pipeline.png" alt="algebraic reasoning" class="center" style="width:95%;height:auto;">
+            <br>
+            <figcaption style="text-align:center;">Human-AI collaboration pipeline for formal mathematical statement creation and filtering.</figcaption>
+            <br>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</section>
+<br>
+<br>
+
+
+
+<!-- Visualization SECTION -->
+
+<section class="hero is-light is-small">
+  <div class="hero-body has-text-centered">
+    <h1 class="title is-1 mmmu">Delving Deep into Common Error Patterns of Existing Provers</h1>
+  </div>
+</section>
+
+
+
+  <!-------------------------------------------------------------------- RESULTS SECTION -------------------------------------------------------------------->
+  <!-- <section class="section">
+    <div class="container">
+      <div class="columns is-centered has-text-centered">
+        <div class="column is-four-fifths">
+          <h2 class="title is-3">Setup</h2>
+          <div class="content has-text-justified">
+            <p>
+              We analyze and define common error patterns found in existing theorem provers, using advanced general-purpose LLMs (e.g., o4-mini) to automate error diagnosis and classification. Our method extracts verbalized features from proof failures, then assigns predefined error categories using a second prompt-driven step. We analyze 100 randomly selected failed proof attempts from each prover, and domain experts manually inspect and correct the annotations. The results, presented in a table, highlight the five most common error patterns and provide insights into proof failure modes.
+            </p>
+            <img src="static_formalmath/images/error.png" alt="algebraic reasoning" class="center">
+            <br>
+          </div>  
+          <h2 class="title is-3">Case Study</h2>
+          <div class="content has-text-justified">
+            <style>
+              .gray-background {
+                background-color: #f0f0f0;  /* 灰色背景 */
+                color: #333;               /* 深灰色文字 */
+                padding: 5px;              /* 内边距 */
+                border-radius: 3px;        /* 圆角 */
+              }
+            </style>
+            <p>
+              We explore several error patterns, starting with the improper use of automation tactics in Lean4 provers. Over-reliance on tactics like <span class="gray-background">aesop</span>, <span class="gray-background">simp</span>, and <span class="gray-background">linarith</span> can expand the search space and lead to non-termination or unsolvable goals. We also highlight the provers' difficulties handling complex inequalities, leading to proof failures, and redundant hypotheses that clutter the proof process. Incomplete proofs are another common issue, where provers generate unfinished proofs without properly justifying intermediate reasoning steps, leading to shallow or incomplete conclusions.
+            </p>
+            <img src="static_formalmath/images/case_study.png" alt="algebraic reasoning" class="center">
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  </div>
+</section> -->
+
+
+<div class="container">
+
+
+
+
+  <!-------------------------------------------------------------------- RESULTS SECTION -------------------------------------------------------------------->
+  <section class="section">
+    <div class="container">
+      <div class="columns is-centered has-text-centered">
+        <div class="column is-four-fifths">
+          <h2 class="title is-3">Setup</h2>
+          <div class="content has-text-justified">
+            <p>
+              We analyze and define common error patterns found in existing theorem provers, using advanced general-purpose LLMs (e.g., o4-mini) to automate error diagnosis and classification. Our method extracts verbalized features from proof failures, then assigns predefined error categories using a second prompt-driven step. We analyze 100 randomly selected failed proof attempts from each prover, and domain experts manually inspect and correct the annotations. The results, presented in a table, highlight the five most common error patterns and provide insights into proof failure modes.
+            </p>
+            <!-- <img src="static_formalmath/images/error.png" alt="algebraic reasoning" class="center"> -->
+            <div style="display: flex; justify-content: center;">
+              <div style="width: 80%;">
+                <table style="border-collapse: collapse; font-size: 14px; margin: 0 auto; line-height: 0.8; width: 100%; border: none;">
+                  <colgroup>
+                    <col style="width: 30%;">
+                    <col style="width: 20%;">
+                    <col style="width: 20%;">
+                    <col style="width: 15%;">
+                    <col style="width: 15%;">
+                  </colgroup>
+                  <thead>
+                    <tr style="background-color: transparent;">
+                      <th style="text-align: left; padding: 12px; font-weight: bold; border: none;">Error</th>
+                      <th style="text-align: center; padding: 12px; font-weight: bold; border: none;">DeepSeek-SFT</th>
+                      <th style="text-align: center; padding: 12px; font-weight: bold; border: none;">DeepSeek-RL</th>
+                      <th style="text-align: center; padding: 12px; font-weight: bold; border: none;">Goedel</th>
+                      <th style="text-align: center; padding: 12px; font-weight: bold; border: none;">STP</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr style="border-top: 1px solid black; border-left: none; border-right: none; border-bottom: none;">
+                      <td style="text-align: left; padding: 12px; border: none;">Redundant Hypothesis</td>
+                      <td style="text-align: center; padding: 12px; border: none;">18.0%</td>
+                      <td style="text-align: center; padding: 12px; border: none;">34.0%</td>
+                      <td style="text-align: center; padding: 12px; border: none;">27.0%</td>
+                      <td style="text-align: center; padding: 12px; border: none;">24.0%</td>
+                    </tr>
+                    <tr style="border: none;">
+                      <td style="text-align: left; padding: 12px; border: none;">Incomplete Proof</td>
+                      <td style="text-align: center; padding: 12px; border: none;">77.0%</td>
+                      <td style="text-align: center; padding: 12px; border: none;">62.0%</td>
+                      <td style="text-align: center; padding: 12px; border: none;">86.0%</td>
+                      <td style="text-align: center; padding: 12px; border: none;">44.0%</td>
+                    </tr>
+                    <tr style="border: none;">
+                      <td style="text-align: left; padding: 12px; border: none;">Inabilities for Inequality</td>
+                      <td style="text-align: center; padding: 12px; border: none;">8.0%</td>
+                      <td style="text-align: center; padding: 12px; border: none;">13.0%</td>
+                      <td style="text-align: center; padding: 12px; border: none;">20.0%</td>
+                      <td style="text-align: center; padding: 12px; border: none;">1.0%</td>
+                    </tr>
+                    <tr style="border: none;">
+                      <td style="text-align: left; padding: 12px; border: none;">Misuse of Auto tactics</td>
+                      <td style="text-align: center; padding: 12px; border: none;">62.0%</td>
+                      <td style="text-align: center; padding: 12px; border: none;">65.0%</td>
+                      <td style="text-align: center; padding: 12px; border: none;">78.0%</td>
+                      <td style="text-align: center; padding: 12px; border: none;">74.0%</td>
+                    </tr>
+                  </tbody>
+                </table>
+                <div style="text-align:center;">
+                  Percentage of different Lean4 error patterns in LLM-based provers.
+                </div>
+              </div>
+            </div>
+            <br>
+          </div>  
+          <h2 class="title is-3">Case Study</h2>
+          <div class="content has-text-justified">
+            <style>
+              .gray-background {
+                background-color: #f0f0f0;  /* 灰色背景 */
+                color: #333;               /* 深灰色文字 */
+                padding: 5px;              /* 内边距 */
+                border-radius: 3px;        /* 圆角 */
+              }
+            </style>
+            <p>
+              We explore several error patterns, starting with the improper use of automation tactics in Lean4 provers. Over-reliance on tactics like <span class="gray-background">aesop</span>, <span class="gray-background">simp</span>, and <span class="gray-background">linarith</span> can expand the search space and lead to non-termination or unsolvable goals. We also highlight the provers' difficulties handling complex inequalities, leading to proof failures, and redundant hypotheses that clutter the proof process. Incomplete proofs are another common issue, where provers generate unfinished proofs without properly justifying intermediate reasoning steps, leading to shallow or incomplete conclusions.
+            </p>
+<style>
+      .proof-table {
+          border-collapse: collapse;
+          width: 100%;
+          margin: 20px 0;
+          font-size: 14px;
+          table-layout: fixed;
+      }
+      .proof-table-header {
+          text-align: center;
+          vertical-align: middle;
+          padding: 12px 8px;
+          background-color: #f4f4f4;
+          font-weight: bold;
+      }
+      .proof-table td {
+          border: 1px solid #ddd;
+          padding: 8px;
+          vertical-align: top;
+          text-align: center;
+          word-wrap: break-word;
+          }
+
+          .proof-table th {
+          border: 1px solid #ddd;
+          padding: 8px;
+          background-color: #f4f4f4;
+          font-weight: bold;
+          text-align: center;
+          vertical-align: middle;
+      }
+      
+      .code-block {
+          background-color: #f8f8f8;
+          padding: 8px;
+          font-family: monospace;
+          white-space: pre-wrap;
+      }
+      .keyword-red {
+      color: rgb(231, 31, 58);
+      }
+      .keyword-blue {
+      color: rgb(5, 7, 167);
+      }
+      .keyword-grey {
+      color: rgb(158, 157, 158);
+      }
+      .highlight {
+          background-color: #f5a5a5;
+      }
+      
+      .explanation {
+          color: black;
+      }
+      
+      .bold-title {
+          font-weight: bold;
+      }
+      
+      .border-bottom {
+          border-bottom: 2px solid #000;
+      }
+      </style>
+      
+      <table class="proof-table">
+          <tr>
+            <th style="text-align:center; vertical-align:middle;">Lean4 Statement</th>
+            <th style="text-align:center; vertical-align:middle;">Prover Output</th>
+            <th style="text-align:center; vertical-align:middle;">Explanation</th>
+          </tr>
+          <tr class="border-bottom">
+              <td>
+                  <div class="code-block">
+<span class="keyword-red">theorem</span> omni_theorem_4000 (f : ℝ → ℝ) :
+  (<span class="keyword-blue">∀</span> x y, (x <span class="keyword-blue">+</span> y ^ 2) <span class="keyword-blue">*</span> f (y <span class="keyword-blue">*</span> f x) = x <span class="keyword-blue">*</span> y <span class="keyword-blue">*</span> f (y ^ 2 <span class="keyword-blue">+</span> f x)) ↔
+  <span class="keyword-blue">∀</span> x, f x <span class="keyword-blue">=</span> x ∨ f x <span class="keyword-blue">=</span> 0 ∨ <span class="keyword-blue">∃</span> a, a ≤ <span class="keyword-blue">-</span>1 ∨ a > 0 ∧ f x <span class="keyword-blue">=</span> <span class="keyword-red">if</span> x ≠ -a ^ 2 <span class="keyword-red">then</span> 0 <span class="keyword-red">else</span> a <span class="keyword-blue">:=</span> <span class="keyword-red">by</span>
+                  </div>
+              </td>
+              <td>
+                  <div class="code-block">
+<span class="keyword-grey">-- Proof Before
+-- If f(x) ≠ 0, we need to show that there exists an a such that the conditions hold.</span>
+right
+right
+<span class="highlight">use 0</span>
+<span class="keyword-grey">-- We choose a = 0 to satisfy the conditions.</span>
+<span class="highlight">simp</span>
+<span class="keyword-grey">--Proof After</span>
+                  </div>
+              </td>
+              <td>
+                  <div class="explanation">
+                      <strong>Improper use of Automation Tactics. </strong>
+                      The prover selects the witness a=0 without checking the original side‑condition and then calls simp to close off the goal. This bypasses the essential case‑by‑case analysis of the core functional equation, resulting in an invalid proof that never constructs the required nonzero witness when needed.
+                  </div>
+              </td>
+          </tr>
+          <tr class="border-bottom">
+              <td>
+                  <div class="code-block">
+<span class="keyword-red">theorem</span> DEMIMathAnalysis_50 :
+  Tendsto (<span class="keyword-blue">λ</span> n => sqrt n <span class="keyword-blue">*</span> ∫ x <span class="keyword-red">in</span> univ, 1 / (1 <span class="keyword-blue">+</span> x ^ 2) ^ n) atTop (N (sqrt π)) <span class="keyword-blue">:=</span> <span class="keyword-red">by</span>
+                  </div>
+              </td>
+              <td>
+                  <div class="code-block">
+<span class="keyword-blue">rw</span> [show sqrt = fun x => sqrt x by funext; rfl]
+<span class="highlight">apply stendsto_atTop_mono</span> (fun n => sqrt_le_sqrt <|
+integral_mono_on _ _ <| fun x _ => by
+    gcongr
+    all_goals norm_num)
+<span class="keyword-blue">refine</span>' tendsto_atTop_of_eventually_const (by <span class="keyword-blue">simp</span>)
+all_goals
+    filter_upwards with _
+<span class="highlight"> <;> simp</span>
+                  </div>
+              </td>
+              <td>
+                  <div class="explanation">
+                      <strong>Incomplete Proof. </strong>
+                      The proof invokes tendsto_atTop_mono without establishing any of the analytical prerequisites. The final simp steps trivially handle eventual constancy but leave the main asymptotic argument unresolved.
+                  </div>
+              </td>
+          </tr>
+          <tr class="border-bottom">
+              <td>
+                  <div class="code-block">
+<span class="keyword-red">theorem</span> aime_all_2005_II_1 (n : ℕ) (hn : n ≥ 6) 
+  (h : {s : Finset (Fin n) | s.card = 6}.ncard = 6 <span class="keyword-blue">*</span> {s : Finset (Fin n) | s.card = 3}.ncard) :
+      n = 13 := <span class="keyword-red">by</span>
+                  </div>
+              </td>
+              <td>
+                  <div class="code-block">
+norm_num [Nat.choose] at h
+<span class="keyword-blue">revert</span> n hn h
+<span class="highlight">rintro n hn h</span>
+ring_nf at h
+nlinarith
+                  </div>
+              </td>
+              <td>
+                  <div class="explanation">
+                      <strong>Redundant Hypothesis Introduction. </strong>
+                      After norm_num already rewrites the binomial coefficients, the revert ; rintro sequence merely re‑introduces n, hn, and h in the same form, adding no new information and cluttering the context.
+                  </div>
+              </td>
+          </tr>
+          <tr>
+              <td>
+                  <div class="code-block">
+<span class="keyword-red">theorem</span> algebra_528739 (a b c : ℝ) (ha : 0 < a) (hb : 0 < b) (hc : 0 < c) :
+    1 / (a^3 <span class="keyword-blue">+</span> b^3 <span class="keyword-blue">+</span> a <span class="keyword-blue">*</span> b <span class="keyword-blue">*</span> c) <span class="keyword-blue">+</span> 1 / (b^3 <span class="keyword-blue">+</span> c^3 <span class="keyword-blue">+</span> a <span class="keyword-blue">*</span>b <span class="keyword-blue">*</span> c) <span class="keyword-blue">+</span>
+    1 / (c^3 <span class="keyword-blue">+</span> a^3 <span class="keyword-blue">+</span> a <span class="keyword-blue">*</span> b <span class="keyword-blue">*</span> c) ≤ 1 / (a <span class="keyword-blue">*</span> b <span class="keyword-blue">*</span> c) := <span class="keyword-red">by</span>
+                  </div>
+              </td>
+              <td>
+                  <div class="code-block">
+  <span class="keyword-grey">-- We start by simplifying the left-hand side using the fact that each term is non-negative.</span>
+  have h₀ : 0 < a * b * c := by positivity
+  ...
+  <span class="keyword-grey">-- We then apply the inequality to each term.</span>
+  <span class="keyword-blue">rw</span> [div_le_div_iff] <;>
+  <span class="highlight">nlinarith</span>, [sq_nonneg (a - b), sq_nonneg (b - c), sq_nonneg (c - a)]
+  ...
+                  </div>
+              </td>
+              <td>
+                  <div class="explanation">
+                      <strong>Inadequate Handling of Inequalities. </strong>
+                      The solver attempts to apply nlinarith after a single div_le_div_iff, but the cyclic, high‑degree fractional structure exceeds its linear‐and‐quadratic reasoning scope.
+                  </div>
+              </td>
+          </tr>
+      </table>
+  </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  </div>
+</section>
+
+
+
+<!-- @PAN TODO: bibtex -->
+<section class="section" id="BibTeX">
+  <div class="container is-max-desktop content">
+    <h2 class="title is-3 has-text-centered">BibTeX</h2>
+    <pre><code>
+      @article{qiu2024can, 
+        title={Can Large Language Models Understand Symbolic Graphics Programs?}, 
+        author={Qiu, Zeju and Liu, Weiyang and Feng, Haiwen and Liu, Zhen and Xiao, Tim Z and Collins, Katherine M and Tenenbaum, Joshua B and Weller, Adrian and Black, Michael J and Sch{\"o}lkopf, Bernhard}, 
+        journal={arXiv preprint arXiv:2408.08313}, 
+        year={2024} 
+      }
+
+</code></pre>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="columns is-centered">
+    <div class="column is-8">
+      <div class="content">
+        <p>
+          This website is website adapted from <a href="https://sgp-bench.github.io/">SGP-Bench</a>, licensed under a <a rel="license"
+                                              href="http://creativecommons.org/licenses/by-sa/4.0/">Creative
+          Commons Attribution-ShareAlike 4.0 International License</a>.
+        </p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+      // Initialize tablesort for both tables
+      var table1 = new Tablesort(document.getElementById('table1'));
+      var table2 = new Tablesort(document.getElementById('table2'));
+
+      // Sort the tables by the 'Overall' column (index 3)
+      function sortByOverall(table) {
+          var rows = Array.from(table.querySelectorAll('tbody > tr'));
+          rows.sort((rowA, rowB) => {
+              var cellA = parseFloat(rowA.cells[3].textContent);
+              var cellB = parseFloat(rowB.cells[3].textContent);
+              return cellB - cellA;
+          });
+          rows.forEach(row => table.querySelector('tbody').appendChild(row));
+      }
+
+      // Sort both tables by the 'Overall' column on page load
+      sortByOverall(document.getElementById('table1'));
+      sortByOverall(document.getElementById('table2'));
+  });
+
+  function changeButtonText() {
+      var table1 = document.getElementById('table1');
+      var table2 = document.getElementById('table2');
+      if (table1.classList.contains('hidden')) {
+          table1.classList.remove('hidden');
+          table2.classList.add('hidden');
+      } else {
+          table1.classList.add('hidden');
+          table2.classList.remove('hidden');
+      }
+  }
+
+
+
+
+  function changeButtonText() {
+    var button = document.getElementById('toggleButton');
+    if (button.innerHTML.includes("FormalMATH-All Leaderboard")) {
+      button.innerHTML = "<b style='font-size: larger;'>FormalMATH-Lite Leaderboard</b> (Click to Switch)";
+    } else {
+      button.innerHTML = "<b style='font-size: larger;'>FormalMATH-All Leaderboard</b> (Click to Switch)";
+    }
+  }
+  document.addEventListener('DOMContentLoaded', function() {
+    var tables = document.querySelectorAll('table');
+
+    tables.forEach(function(table) {
+        if (!table) return;
+
+        var initialRows = Array.from(table.rows).slice(1);
+        table.addEventListener('click', function(event) {
+            var clickedCell = event.target.closest('td, th');
+            if (!clickedCell) return;
+            var headerRow = clickedCell.parentNode;
+            var columnIndex = Array.from(headerRow.cells).indexOf(clickedCell);
+            var type = clickedCell.getAttribute('data-type');
+
+            if (headerRow.rowIndex === 0) {
+                if (columnIndex === 0) {
+                    table.tBodies[0].innerHTML = '';
+                    initialRows.forEach(row => table.tBodies[0].appendChild(row.cloneNode(true)));
+                }
+            }
+        });
+    });
+});
+
+  function toggleTables () {
+      var table1 = document.getElementById('table1');
+      var table2 = document.getElementById('table2');
+      table1.classList.toggle('hidden');
+      table2.classList.toggle('hidden');
+      
+      var desc1 = document.querySelector('p.validation-desc');
+      var desc2 = document.querySelector('p.test-desc');
+      desc1.classList.toggle('hidden');
+      desc2.classList.toggle('hidden');
+  }
+
+  document.getElementById('toggleButton').addEventListener('click', toggleTables);
+
+  const canvas = document.getElementById('difficulty_level_chart');
+  canvas.style.width = '500px';
+  canvas.style.height = '120px';
+  const ctx = document.getElementById('difficulty_level_chart').getContext('2d');
+  const difficulty_level_chart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: ['Easy', 'Medium', 'Hard', 'Overall'],
+      datasets: [{
+        label: 'Adept Fuyu-8B',
+        data: [28.9, 27, 26.4, 27.4],
+        backgroundColor: 'rgba(196, 123, 160, 0.6)',
+        borderColor: 'rgba(196, 123, 160, 1)',
+        borderWidth: 1,
+        hoverBackgroundColor: 'rgba(196, 123, 160, 1)'
+      },
+      {
+        label: 'Qwen-VL-7B-Chat',
+        data: [39.4, 31.9, 27.6, 32.9],
+        backgroundColor: 'rgba(245, 123, 113, 0.6)',
+        borderColor: 'rgba(245, 123, 113, 1)',
+        borderWidth: 1,
+        hoverBackgroundColor: 'rgba(245, 123, 113, 1)'
+      },
+      {
+        label: 'LLaVA-1.5-13B',
+        data: [41.3, 32.7, 26.7, 33.6],
+        backgroundColor: 'rgba(255, 208, 80, 0.6)',
+        borderColor: 'rgba(255, 208, 80, 1)',
+        borderWidth: 1,
+        hoverBackgroundColor: 'rgba(255, 208, 80, 1)'
+      },
+      {
+        label: 'InstructBLIP-T5-XXL',
+        data: [40.3, 32.3, 29.4, 33.8],
+        backgroundColor: 'rgba(110, 194, 134, 0.6)',
+        borderColor: 'rgba(110, 194, 134, 1)',
+        borderWidth: 1,
+        hoverBackgroundColor: 'rgba(110, 194, 134, 1)'
+      },
+      {
+        label: 'BLIP-2 FLAN-T5-XXL',
+        data: [41, 32.7, 28.5, 34],
+        backgroundColor: 'rgba(255, 153, 78, 0.6)',
+        borderColor: 'rgba(255, 153, 78, 1)',
+        borderWidth: 1,
+        hoverBackgroundColor: 'rgba(255, 153, 78, 1)'
+      },
+      {
+        label: 'Yi-VL-34B',
+        data: [51.0, 39.9, 34.0, 41.6],
+        backgroundColor: 'rgba(42, 149, 235, 0.6)',
+        borderColor: 'rgba(42, 149, 235, 1)',
+        borderWidth: 1,
+        hoverBackgroundColor: 'rgba(42, 149, 235, 1)'
+      },
+      {
+        label: 'LLaVA-1.6-34B',
+        data: [56.1, 43.4, 34.4, 44.7],
+        backgroundColor: 'rgba(183, 156, 220, 0.6)',
+        borderColor: 'rgba(183, 156, 220, 1)',
+        borderWidth: 1,
+        hoverBackgroundColor: 'rgba(183, 156, 220, 1)'
+      },
+      {
+        label: 'InternVL-Chat-V1.2',
+        data: [56.2, 44.8, 37.8, 46.2],
+        backgroundColor: 'rgba(143, 169, 209, 0.6)',
+        borderColor: 'rgba(143, 169, 209, 1)',
+        borderWidth: 1,
+        hoverBackgroundColor: 'rgba(143, 169, 209, 1)'
+      },
+      {
+        label: 'VILA1.5',
+        data: [58.1, 45.5, 36.8, 46.9],
+        backgroundColor: 'rgba(172, 199, 176, 0.6)',
+        borderColor: 'rgba(172, 199, 176, 1)',
+        borderWidth: 1,
+        hoverBackgroundColor: 'rgba(172, 199, 176, 1)'
+      },
+      {
+        label: 'GPT-4V(ision) (Playground)',
+        data: [76.1, 55.6, 31.2, 55.7],
+        backgroundColor: 'rgba(117, 209, 215, 0.6)',
+        borderColor: 'rgba(117, 209, 215, 1)',
+        borderWidth: 1,
+        hoverBackgroundColor: 'rgba(117, 209, 215, 1)'
+      }]
+    },
+    options: {
+    scales: {
+      y: {
+        beginAtZero: true,
+        min: 0,
+        max: 100,
+        ticks: {
+          stepSize: 20,
+          font: {
+            size: 16
+          }
+        }
+      },
+      x: {
+        ticks: {
+          font: {
+            size: 16 
+          }
+        }
+      }
+    },
+    plugins: {
+      legend: {
+        labels: {
+          font: {
+            size: 16 
+          }
+        }
+      },
+      tooltip: {
+        callbacks: {
+          label: function(context) {
+            return context.dataset.label + ': ' + context.parsed.y;
+          }
+        }
+      }
+    },
+      onHover: (event, chartElement) => {
+        event.native.target.style.cursor = chartElement[0] ? 'pointer' : 'default';
+      }
+    }
+  });
+
+  const canvas_image = document.getElementById('single_vs_multiple_chart');
+  canvas_image.style.width = '500px';
+  canvas_image.style.height = '120px';
+  const svm = document.getElementById('single_vs_multiple_chart').getContext('2d');
+  const single_vs_multiple_chart = new Chart(svm, {
+    type: 'bar',
+    data: {
+      labels: ['InternLM-XComposer2-VL', 'Yi-VL-34B', 'LLaVA-1.6-34B', 'InternVL-Chat-V1.2', 'VILA1.5', 'GPT-4V(ision) (Playground)'],
+      datasets: [{
+        label: 'Single Image',
+        data: [38.6, 42, 45.1, 46.9, 47, 56.1],
+        backgroundColor: 'rgba(42, 149, 235, 0.6)', 
+        borderColor: 'rgba(42, 149, 235, 1)',
+        borderWidth: 1,
+        hoverBackgroundColor: 'rgba(42, 149, 235, 1)'
+      },
+      {
+        label: 'Multiple Image',
+        data: [34.5, 36.6, 40, 38.4, 45.9, 51.7],
+        backgroundColor: 'rgba(255, 153, 78, 0.6)', 
+        borderColor: 'rgba(255, 153, 78, 1)',
+        borderWidth: 1,
+        hoverBackgroundColor: 'rgba(255, 153, 78, 1)'
+      },
+      {
+        label: 'Overall',
+        data: [38.2, 41.6, 44.7, 46.2, 46.9, 55.7],
+        backgroundColor: 'rgba(110, 194, 134, 0.6)',  
+        borderColor: 'rgba(110, 194, 134, 1)',
+        borderWidth: 1,
+        hoverBackgroundColor: 'rgba(110, 194, 134, 1)'
+      }]
+    },
+    options: {
+    scales: {
+      y: {
+        beginAtZero: true,
+        min: 0,
+        max: 80,
+        ticks: {
+          stepSize: 20,
+          font: {
+            size: 16
+          }
+        }
+      },
+      x: {
+        ticks: {
+          font: {
+            size: 16 
+          }
+        }
+      }
+    },
+    plugins: {
+      legend: {
+        labels: {
+          font: {
+            size: 16 
+          }
+        }
+      },
+      tooltip: {
+        callbacks: {
+          label: function(context) {
+            return context.dataset.label + ': ' + context.parsed.y;
+          }
+        }
+      }
+    },
+      onHover: (event, chartElement) => {
+        event.native.target.style.cursor = chartElement[0] ? 'pointer' : 'default';
+      }
+    }
+  });
+
+
+  document.addEventListener('DOMContentLoaded', function() {
+    // Data for the "Diagrams" chart
+    const data_Diagrams = {
+        labels: ['Adept Fuyu-8B', 'Qwen-VL-7B-Chat', 'InstructBLIP-T5-XXL', 'LLaVA-1.5-13B', 'BLIP-2 FLAN-T5-XXL', 'Yi-VL-34B', 'LLaVA-1.6-34B', 'InternVL-Chat-V1.2', 'VILA1.5', 'GPT-4V'],
+        datasets: [{
+            data: [27.6, 30.1, 31.8, 30.0, 32.0, 38.5, 40.8, 44.6, 42.8, 46.8],
+            backgroundColor: ['rgba(196, 123, 160, 0.6)', 'rgba(245, 123, 113, 0.6)', 'rgba(255, 208, 80, 0.6)', 'rgba(110, 194, 134, 0.6)', 'rgba(255, 153, 78, 0.6)', 'rgba(42, 149, 235, 0.6)','rgba(183, 156, 220, 0.6)' ,'rgba(143, 169, 209, 0.6)' ,'rgba(72, 199, 176, 0.6)' ,'rgba(117, 209, 215, 0.6)'],
+            borderColor: ['rgba(196, 123, 160, 1)', 'rgba(245, 123, 113,0.4)', 'rgba(255, 208, 80, 1)', 'rgba(110, 194, 134, 1)', 'rgba(255, 153, 78, 1)', 'rgba(42, 149, 235, 1)','rgba(183, 156, 220, 1)' ,'rgba(143, 169, 209, 1)' ,'rgba(72, 199, 176, 1)' ,  'rgba(117, 209, 215, 1)'],
+            hoverBackgroundColor: ['rgba(196, 123, 160, 1)', 'rgba(245, 123, 113,1)', 'rgba(255, 208, 80, 1)', 'rgba(110, 194, 134, 1)', 'rgba(255, 153, 78, 1)', 'rgba(42, 149, 235, 1)','rgba(183, 156, 220, 1)' ,'rgba(143, 169, 209, 1)' ,'rgba(72, 199, 176, 1)' , 'rgba(117, 209, 215, 1)']
+        }]
+    };
+
+    // "data_Diagrams" chart
+    new Chart(document.getElementById('chart_Diagrams'), {
+        type: 'bar',
+        data: data_Diagrams,
+        options: {
+        scales: {
+          y: {
+            beginAtZero: true,
+            min: 0,
+            max: 100,
+            ticks: {
+              stepSize: 20
+            }
+          },
+          x: {
+            display: false
+          }
+        },
+        plugins: {
+          legend: {
+            display: false
+          },
+          tooltip: {
+          }
+        }
+      }
+    });
+
+    // "data_Tables" chart
+    const data_Tables  = {
+        labels: ['Adept Fuyu-8B', 'Qwen-VL-7B-Chat', 'InstructBLIP-T5-XXL', 'LLaVA-1.5-13B', 'BLIP-2 FLAN-T5-XXL', 'Yi-VL-34B', 'LLaVA-1.6-34B', 'InternVL-Chat-V1.2', 'VILA1.5', 'GPT-4V'],
+        datasets: [{
+            data: [26.6, 29.0, 29.8, 27.8, 27.8, 33.6, 40.2, 37.8, 39.9, 61.8],
+            backgroundColor: ['rgba(196, 123, 160, 0.6)', 'rgba(245, 123, 113, 0.6)', 'rgba(255, 208, 80, 0.6)', 'rgba(110, 194, 134, 0.6)', 'rgba(255, 153, 78, 0.6)', 'rgba(42, 149, 235, 0.6)','rgba(183, 156, 220, 0.6)' ,'rgba(143, 169, 209, 0.6)' ,'rgba(72, 199, 176, 0.6)' ,'rgba(117, 209, 215, 0.6)'],
+            borderColor: ['rgba(196, 123, 160, 1)', 'rgba(245, 123, 113,0.4)', 'rgba(255, 208, 80, 1)', 'rgba(110, 194, 134, 1)', 'rgba(255, 153, 78, 1)', 'rgba(42, 149, 235, 1)','rgba(183, 156, 220, 1)' ,'rgba(143, 169, 209, 1)' ,'rgba(72, 199, 176, 1)' ,  'rgba(117, 209, 215, 1)'],
+            hoverBackgroundColor: ['rgba(196, 123, 160, 1)', 'rgba(245, 123, 113,1)', 'rgba(255, 208, 80, 1)', 'rgba(110, 194, 134, 1)', 'rgba(255, 153, 78, 1)', 'rgba(42, 149, 235, 1)','rgba(183, 156, 220, 1)' ,'rgba(143, 169, 209, 1)' ,'rgba(72, 199, 176, 1)' , 'rgba(117, 209, 215, 1)']
+        }]
+    };
+    new Chart(document.getElementById('chart_Tables'), {
+        type: 'bar',
+        data: data_Tables,
+        options: {
+        scales: {
+          y: {
+            beginAtZero: true,
+            min: 0,
+            max: 100,
+            ticks: {
+              stepSize: 20
+            }
+          },
+          x: {
+            display: false
+          }
+        },
+        plugins: {
+          legend: {
+            display: false
+          },
+          tooltip: {
+          }
+        }
+      }
+    });
+
+    // "data_PlotsAndCharts " chart
+    const data_PlotsAndCharts   = {
+        labels: ['Adept Fuyu-8B', 'Qwen-VL-7B-Chat', 'InstructBLIP-T5-XXL', 'LLaVA-1.5-13B', 'BLIP-2 FLAN-T5-XXL', 'Yi-VL-34B', 'LLaVA-1.6-34B', 'InternVL-Chat-V1.2', 'VILA1.5', 'GPT-4V'],
+        datasets: [{
+            data: [24.8, 31.8, 36.2, 30.4, 35.8, 43.6, 44.9, 44.3, 47.6, 55.6],
+            backgroundColor: ['rgba(196, 123, 160, 0.6)', 'rgba(245, 123, 113, 0.6)', 'rgba(255, 208, 80, 0.6)', 'rgba(110, 194, 134, 0.6)', 'rgba(255, 153, 78, 0.6)', 'rgba(42, 149, 235, 0.6)','rgba(183, 156, 220, 0.6)' ,'rgba(143, 169, 209, 0.6)' ,'rgba(72, 199, 176, 0.6)' ,'rgba(117, 209, 215, 0.6)'],
+            borderColor: ['rgba(196, 123, 160, 1)', 'rgba(245, 123, 113,0.4)', 'rgba(255, 208, 80, 1)', 'rgba(110, 194, 134, 1)', 'rgba(255, 153, 78, 1)', 'rgba(42, 149, 235, 1)','rgba(183, 156, 220, 1)' ,'rgba(143, 169, 209, 1)' ,'rgba(72, 199, 176, 1)' ,  'rgba(117, 209, 215, 1)'],
+            hoverBackgroundColor: ['rgba(196, 123, 160, 1)', 'rgba(245, 123, 113,1)', 'rgba(255, 208, 80, 1)', 'rgba(110, 194, 134, 1)', 'rgba(255, 153, 78, 1)', 'rgba(42, 149, 235, 1)','rgba(183, 156, 220, 1)' ,'rgba(143, 169, 209, 1)' ,'rgba(72, 199, 176, 1)' , 'rgba(117, 209, 215, 1)']
+        }]
+    };
+    new Chart(document.getElementById('chart_PlotsAndCharts'), {
+        type: 'bar',
+        data: data_PlotsAndCharts ,
+        options: {
+        scales: {
+          y: {
+            beginAtZero: true,
+            min: 0,
+            max: 100,
+            ticks: {
+              stepSize: 20
+            }
+          },
+          x: {
+            display: false
+          }
+        },
+        plugins: {
+          legend: {
+            display: false
+          },
+          tooltip: {
+          }
+        }
+      }
+    });
+
+    // "data_Photographs " chart
+    const data_Photographs   = {
+        labels: ['Adept Fuyu-8B', 'Qwen-VL-7B-Chat', 'InstructBLIP-T5-XXL', 'LLaVA-1.5-13B', 'BLIP-2 FLAN-T5-XXL', 'Yi-VL-34B', 'LLaVA-1.6-34B', 'InternVL-Chat-V1.2', 'VILA1.5', 'GPT-4V'],
+        datasets: [{
+            data: [27.6, 40.5, 41.4, 44.4, 42.0, 51.9, 57.3, 58.4, 60.9, 64.2],
+            backgroundColor: ['rgba(196, 123, 160, 0.6)', 'rgba(245, 123, 113, 0.6)', 'rgba(255, 208, 80, 0.6)', 'rgba(110, 194, 134, 0.6)', 'rgba(255, 153, 78, 0.6)', 'rgba(42, 149, 235, 0.6)','rgba(183, 156, 220, 0.6)' ,'rgba(143, 169, 209, 0.6)' ,'rgba(72, 199, 176, 0.6)' ,'rgba(117, 209, 215, 0.6)'],
+            borderColor: ['rgba(196, 123, 160, 1)', 'rgba(245, 123, 113,0.4)', 'rgba(255, 208, 80, 1)', 'rgba(110, 194, 134, 1)', 'rgba(255, 153, 78, 1)', 'rgba(42, 149, 235, 1)','rgba(183, 156, 220, 1)' ,'rgba(143, 169, 209, 1)' ,'rgba(72, 199, 176, 1)' ,  'rgba(117, 209, 215, 1)'],
+            hoverBackgroundColor: ['rgba(196, 123, 160, 1)', 'rgba(245, 123, 113,1)', 'rgba(255, 208, 80, 1)', 'rgba(110, 194, 134, 1)', 'rgba(255, 153, 78, 1)', 'rgba(42, 149, 235, 1)','rgba(183, 156, 220, 1)' ,'rgba(143, 169, 209, 1)' ,'rgba(72, 199, 176, 1)' , 'rgba(117, 209, 215, 1)']
+        }]
+    };
+    new Chart(document.getElementById('chart_Photographs'), {
+        type: 'bar',
+        data: data_Photographs ,
+        options: {
+        scales: {
+          y: {
+            beginAtZero: true,
+            min: 0,
+            max: 100,
+            ticks: {
+              stepSize: 20
+            }
+          },
+          x: {
+            display: false
+          }
+        },
+        plugins: {
+          legend: {
+            display: false
+          },
+          tooltip: {
+          }
+        }
+      }
+    });
+    
+    // "data_ChemicalStructures " chart
+    const data_ChemicalStructures   = {
+        labels: ['Adept Fuyu-8B', 'Qwen-VL-7B-Chat', 'InstructBLIP-T5-XXL', 'LLaVA-1.5-13B', 'BLIP-2 FLAN-T5-XXL', 'Yi-VL-34B', 'LLaVA-1.6-34B', 'InternVL-Chat-V1.2', 'VILA1.5', 'GPT-4V'],
+        datasets: [{
+            data: [25.0, 27.2, 27.1, 26.7, 25.5, 30.4, 32.5, 35.6, 38.7, 50.6],
+            backgroundColor: ['rgba(196, 123, 160, 0.6)', 'rgba(245, 123, 113, 0.6)', 'rgba(255, 208, 80, 0.6)', 'rgba(110, 194, 134, 0.6)', 'rgba(255, 153, 78, 0.6)', 'rgba(42, 149, 235, 0.6)','rgba(183, 156, 220, 0.6)' ,'rgba(143, 169, 209, 0.6)' ,'rgba(72, 199, 176, 0.6)' ,'rgba(117, 209, 215, 0.6)'],
+            borderColor: ['rgba(196, 123, 160, 1)', 'rgba(245, 123, 113,0.4)', 'rgba(255, 208, 80, 1)', 'rgba(110, 194, 134, 1)', 'rgba(255, 153, 78, 1)', 'rgba(42, 149, 235, 1)','rgba(183, 156, 220, 1)' ,'rgba(143, 169, 209, 1)' ,'rgba(72, 199, 176, 1)' ,  'rgba(117, 209, 215, 1)'],
+            hoverBackgroundColor: ['rgba(196, 123, 160, 1)', 'rgba(245, 123, 113,1)', 'rgba(255, 208, 80, 1)', 'rgba(110, 194, 134, 1)', 'rgba(255, 153, 78, 1)', 'rgba(42, 149, 235, 1)','rgba(183, 156, 220, 1)' ,'rgba(143, 169, 209, 1)' ,'rgba(72, 199, 176, 1)' , 'rgba(117, 209, 215, 1)']
+        }]
+    };
+    new Chart(document.getElementById('chart_ChemicalStructures'), {
+        type: 'bar',
+        data: data_ChemicalStructures ,
+        options: {
+        scales: {
+          y: {
+            beginAtZero: true,
+            min: 0,
+            max: 100,
+            ticks: {
+              stepSize: 20
+            }
+          },
+          x: {
+            display: false
+          }
+        },
+        plugins: {
+          legend: {
+            display: false
+          },
+          tooltip: {
+          }
+        }
+      }
+    });
+
+    // "data_Paintings " chart
+    const data_Paintings   = {
+        labels: ['Adept Fuyu-8B', 'Qwen-VL-7B-Chat', 'InstructBLIP-T5-XXL', 'LLaVA-1.5-13B', 'BLIP-2 FLAN-T5-XXL', 'Yi-VL-34B', 'LLaVA-1.6-34B', 'InternVL-Chat-V1.2', 'VILA1.5', 'GPT-4V'],
+        datasets: [{
+            data: [28.7, 57.2, 53.6, 56.3, 52.1, 67.3, 68.9, 73.1, 71.7, 75.9],
+            backgroundColor: ['rgba(196, 123, 160, 0.6)', 'rgba(245, 123, 113, 0.6)', 'rgba(255, 208, 80, 0.6)', 'rgba(110, 194, 134, 0.6)', 'rgba(255, 153, 78, 0.6)', 'rgba(42, 149, 235, 0.6)','rgba(183, 156, 220, 0.6)' ,'rgba(143, 169, 209, 0.6)' ,'rgba(72, 199, 176, 0.6)' ,'rgba(117, 209, 215, 0.6)'],
+            borderColor: ['rgba(196, 123, 160, 1)', 'rgba(245, 123, 113,0.4)', 'rgba(255, 208, 80, 1)', 'rgba(110, 194, 134, 1)', 'rgba(255, 153, 78, 1)', 'rgba(42, 149, 235, 1)','rgba(183, 156, 220, 1)' ,'rgba(143, 169, 209, 1)' ,'rgba(72, 199, 176, 1)' ,  'rgba(117, 209, 215, 1)'],
+            hoverBackgroundColor: ['rgba(196, 123, 160, 1)', 'rgba(245, 123, 113,1)', 'rgba(255, 208, 80, 1)', 'rgba(110, 194, 134, 1)', 'rgba(255, 153, 78, 1)', 'rgba(42, 149, 235, 1)','rgba(183, 156, 220, 1)' ,'rgba(143, 169, 209, 1)' ,'rgba(72, 199, 176, 1)' , 'rgba(117, 209, 215, 1)']
+        }]
+    };
+    new Chart(document.getElementById('chart_Paintings'), {
+        type: 'bar',
+        data: data_Paintings ,
+        options: {
+        scales: {
+          y: {
+            beginAtZero: true,
+            min: 0,
+            max: 100,
+            ticks: {
+              stepSize: 20
+            }
+          },
+          x: {
+            display: false
+          }
+        },
+        plugins: {
+          legend: {
+            display: false
+          },
+          tooltip: {
+          }
+        }
+      }
+    });
+
+    // "data_GeometricShapes " chart
+    const data_GeometricShapes   = {
+        labels: ['Adept Fuyu-8B', 'Qwen-VL-7B-Chat', 'InstructBLIP-T5-XXL', 'LLaVA-1.5-13B', 'BLIP-2 FLAN-T5-XXL', 'Yi-VL-34B', 'LLaVA-1.6-34B', 'InternVL-Chat-V1.2', 'VILA1.5', 'GPT-4V'],
+        datasets: [{
+            data: [21.1, 25.3, 21.4, 25.6, 28.3, 31, 33.9, 35.7, 37.8, 40.2],
+            backgroundColor: ['rgba(196, 123, 160, 0.6)', 'rgba(245, 123, 113, 0.6)', 'rgba(255, 208, 80, 0.6)', 'rgba(110, 194, 134, 0.6)', 'rgba(255, 153, 78, 0.6)', 'rgba(42, 149, 235, 0.6)','rgba(183, 156, 220, 0.6)' ,'rgba(143, 169, 209, 0.6)' ,'rgba(72, 199, 176, 0.6)' ,'rgba(117, 209, 215, 0.6)'],
+            borderColor: ['rgba(196, 123, 160, 1)', 'rgba(245, 123, 113,0.4)', 'rgba(255, 208, 80, 1)', 'rgba(110, 194, 134, 1)', 'rgba(255, 153, 78, 1)', 'rgba(42, 149, 235, 1)','rgba(183, 156, 220, 1)' ,'rgba(143, 169, 209, 1)' ,'rgba(72, 199, 176, 1)' ,  'rgba(117, 209, 215, 1)'],
+            hoverBackgroundColor: ['rgba(196, 123, 160, 1)', 'rgba(245, 123, 113,1)', 'rgba(255, 208, 80, 1)', 'rgba(110, 194, 134, 1)', 'rgba(255, 153, 78, 1)', 'rgba(42, 149, 235, 1)','rgba(183, 156, 220, 1)' ,'rgba(143, 169, 209, 1)' ,'rgba(72, 199, 176, 1)' , 'rgba(117, 209, 215, 1)']
+        }]
+    };
+    new Chart(document.getElementById('chart_GeometricShapes'), {
+        type: 'bar',
+        data: data_GeometricShapes ,
+        options: {
+        scales: {
+          y: {
+            beginAtZero: true,
+            min: 0,
+            max: 100,
+            ticks: {
+              stepSize: 20
+            }
+          },
+          x: {
+            display: false
+          }
+        },
+        plugins: {
+          legend: {
+            display: false
+          },
+          tooltip: {
+          }
+        }
+      }
+    });
+
+    // "data_SheetMusic " chart
+    const data_SheetMusic   = {
+        labels: ['Adept Fuyu-8B', 'Qwen-VL-7B-Chat', 'InstructBLIP-T5-XXL', 'LLaVA-1.5-13B', 'BLIP-2 FLAN-T5-XXL', 'Yi-VL-34B', 'LLaVA-1.6-34B', 'InternVL-Chat-V1.2', 'VILA1.5', 'GPT-4V'],
+        datasets: [{
+            data: [35.2, 33.4, 34.6, 35.8, 34.9, 37.3, 33.1, 39.4, 37.6, 38.8],
+            backgroundColor: ['rgba(196, 123, 160, 0.6)', 'rgba(245, 123, 113, 0.6)', 'rgba(255, 208, 80, 0.6)', 'rgba(110, 194, 134, 0.6)', 'rgba(255, 153, 78, 0.6)', 'rgba(42, 149, 235, 0.6)','rgba(183, 156, 220, 0.6)' ,'rgba(143, 169, 209, 0.6)' ,'rgba(72, 199, 176, 0.6)' ,'rgba(117, 209, 215, 0.6)'],
+            borderColor: ['rgba(196, 123, 160, 1)', 'rgba(245, 123, 113,0.4)', 'rgba(255, 208, 80, 1)', 'rgba(110, 194, 134, 1)', 'rgba(255, 153, 78, 1)', 'rgba(42, 149, 235, 1)','rgba(183, 156, 220, 1)' ,'rgba(143, 169, 209, 1)' ,'rgba(72, 199, 176, 1)' ,  'rgba(117, 209, 215, 1)'],
+            hoverBackgroundColor: ['rgba(196, 123, 160, 1)', 'rgba(245, 123, 113,1)', 'rgba(255, 208, 80, 1)', 'rgba(110, 194, 134, 1)', 'rgba(255, 153, 78, 1)', 'rgba(42, 149, 235, 1)','rgba(183, 156, 220, 1)' ,'rgba(143, 169, 209, 1)' ,'rgba(72, 199, 176, 1)' , 'rgba(117, 209, 215, 1)']
+        }]
+    };
+    new Chart(document.getElementById('chart_SheetMusic'), {
+        type: 'bar',
+        data: data_SheetMusic ,
+        options: {
+        scales: {
+          y: {
+            beginAtZero: true,
+            min: 0,
+            max: 100,
+            ticks: {
+              stepSize: 20
+            }
+          },
+          x: {
+            display: false
+          }
+        },
+        plugins: {
+          legend: {
+            display: false
+          },
+          tooltip: {
+          }
+        }
+      }
+    });
+
+    // "data_MedicalImages " chart
+    const data_MedicalImages   = {
+        labels: ['Adept Fuyu-8B', 'Qwen-VL-7B-Chat', 'InstructBLIP-T5-XXL', 'LLaVA-1.5-13B', 'BLIP-2 FLAN-T5-XXL', 'Yi-VL-34B', 'LLaVA-1.6-34B', 'InternVL-Chat-V1.2', 'VILA1.5', 'GPT-4V'],
+        datasets: [{
+            data: [25.4, 29.8, 31.6, 36.4, 29.8, 47.8, 50.7, 52.6, 51.8, 59.6],
+            backgroundColor: ['rgba(196, 123, 160, 0.6)', 'rgba(245, 123, 113, 0.6)', 'rgba(255, 208, 80, 0.6)', 'rgba(110, 194, 134, 0.6)', 'rgba(255, 153, 78, 0.6)', 'rgba(42, 149, 235, 0.6)','rgba(183, 156, 220, 0.6)' ,'rgba(143, 169, 209, 0.6)' ,'rgba(72, 199, 176, 0.6)' ,'rgba(117, 209, 215, 0.6)'],
+            borderColor: ['rgba(196, 123, 160, 1)', 'rgba(245, 123, 113,0.4)', 'rgba(255, 208, 80, 1)', 'rgba(110, 194, 134, 1)', 'rgba(255, 153, 78, 1)', 'rgba(42, 149, 235, 1)','rgba(183, 156, 220, 1)' ,'rgba(143, 169, 209, 1)' ,'rgba(72, 199, 176, 1)' ,  'rgba(117, 209, 215, 1)'],
+            hoverBackgroundColor: ['rgba(196, 123, 160, 1)', 'rgba(245, 123, 113,1)', 'rgba(255, 208, 80, 1)', 'rgba(110, 194, 134, 1)', 'rgba(255, 153, 78, 1)', 'rgba(42, 149, 235, 1)','rgba(183, 156, 220, 1)' ,'rgba(143, 169, 209, 1)' ,'rgba(72, 199, 176, 1)' , 'rgba(117, 209, 215, 1)']
+        }]
+    };
+    new Chart(document.getElementById('chart_MedicalImages'), {
+        type: 'bar',
+        data: data_MedicalImages ,
+        options: {
+        scales: {
+          y: {
+            beginAtZero: true,
+            min: 0,
+            max: 100,
+            ticks: {
+              stepSize: 20
+            }
+          },
+          x: {
+            display: false
+          }
+        },
+        plugins: {
+          legend: {
+            display: false
+          },
+          tooltip: {
+          }
+        }
+      }
+    });
+
+    // "data_PathologicalImages " chart
+    const data_PathologicalImages   = {
+        labels: ['Adept Fuyu-8B', 'Qwen-VL-7B-Chat', 'InstructBLIP-T5-XXL', 'LLaVA-1.5-13B', 'BLIP-2 FLAN-T5-XXL', 'Yi-VL-34B', 'LLaVA-1.6-34B', 'InternVL-Chat-V1.2', 'VILA1.5', 'GPT-4V'],
+        datasets: [{
+            data: [26.5, 27.7, 31.2, 35.2, 35.6, 50.2, 57.3, 56.1, 52.6, 63.6],
+            backgroundColor: ['rgba(196, 123, 160, 0.6)', 'rgba(245, 123, 113, 0.6)', 'rgba(255, 208, 80, 0.6)', 'rgba(110, 194, 134, 0.6)', 'rgba(255, 153, 78, 0.6)', 'rgba(42, 149, 235, 0.6)','rgba(183, 156, 220, 0.6)' ,'rgba(143, 169, 209, 0.6)' ,'rgba(72, 199, 176, 0.6)' ,'rgba(117, 209, 215, 0.6)'],
+            borderColor: ['rgba(196, 123, 160, 1)', 'rgba(245, 123, 113,0.4)', 'rgba(255, 208, 80, 1)', 'rgba(110, 194, 134, 1)', 'rgba(255, 153, 78, 1)', 'rgba(42, 149, 235, 1)','rgba(183, 156, 220, 1)' ,'rgba(143, 169, 209, 1)' ,'rgba(72, 199, 176, 1)' ,  'rgba(117, 209, 215, 1)'],
+            hoverBackgroundColor: ['rgba(196, 123, 160, 1)', 'rgba(245, 123, 113,1)', 'rgba(255, 208, 80, 1)', 'rgba(110, 194, 134, 1)', 'rgba(255, 153, 78, 1)', 'rgba(42, 149, 235, 1)','rgba(183, 156, 220, 1)' ,'rgba(143, 169, 209, 1)' ,'rgba(72, 199, 176, 1)' , 'rgba(117, 209, 215, 1)']
+        }]
+    };
+    new Chart(document.getElementById('chart_PathologicalImages'), {
+        type: 'bar',
+        data: data_PathologicalImages ,
+        options: {
+        scales: {
+          y: {
+            beginAtZero: true,
+            min: 0,
+            max: 100,
+            ticks: {
+              stepSize: 20
+            }
+          },
+          x: {
+            display: false
+          }
+        },
+        plugins: {
+          legend: {
+            display: false
+          },
+          tooltip: {
+          }
+        }
+      }
+    });
+
+    // "data_MicroscopicImages " chart
+    const data_MicroscopicImages   = {
+        labels: ['Adept Fuyu-8B', 'Qwen-VL-7B-Chat', 'InstructBLIP-T5-XXL', 'LLaVA-1.5-13B', 'BLIP-2 FLAN-T5-XXL', 'Yi-VL-34B', 'LLaVA-1.6-34B', 'InternVL-Chat-V1.2', 'VILA1.5', 'GPT-4V'],
+        datasets: [{
+            data: [27.0, 37.6, 29.2, 36.3, 32.7, 49.1, 54.9, 50.4, 56.6, 58.0],
+            backgroundColor: ['rgba(196, 123, 160, 0.6)', 'rgba(245, 123, 113, 0.6)', 'rgba(255, 208, 80, 0.6)', 'rgba(110, 194, 134, 0.6)', 'rgba(255, 153, 78, 0.6)', 'rgba(42, 149, 235, 0.6)','rgba(183, 156, 220, 0.6)' ,'rgba(143, 169, 209, 0.6)' ,'rgba(72, 199, 176, 0.6)' ,'rgba(117, 209, 215, 0.6)'],
+            borderColor: ['rgba(196, 123, 160, 1)', 'rgba(245, 123, 113,0.4)', 'rgba(255, 208, 80, 1)', 'rgba(110, 194, 134, 1)', 'rgba(255, 153, 78, 1)', 'rgba(42, 149, 235, 1)','rgba(183, 156, 220, 1)' ,'rgba(143, 169, 209, 1)' ,'rgba(72, 199, 176, 1)' ,  'rgba(117, 209, 215, 1)'],
+            hoverBackgroundColor: ['rgba(196, 123, 160, 1)', 'rgba(245, 123, 113,1)', 'rgba(255, 208, 80, 1)', 'rgba(110, 194, 134, 1)', 'rgba(255, 153, 78, 1)', 'rgba(42, 149, 235, 1)','rgba(183, 156, 220, 1)' ,'rgba(143, 169, 209, 1)' ,'rgba(72, 199, 176, 1)' , 'rgba(117, 209, 215, 1)']
+        }]
+    };
+    new Chart(document.getElementById('chart_MicroscopicImages'), {
+        type: 'bar',
+        data: data_MicroscopicImages ,
+        options: {
+        scales: {
+          y: {
+            beginAtZero: true,
+            min: 0,
+            max: 100,
+            ticks: {
+              stepSize: 20
+            }
+          },
+          x: {
+            display: false
+          }
+        },
+        plugins: {
+          legend: {
+            display: false
+          },
+          tooltip: {
+          }
+        }
+      }
+    });
+
+    // "data_MRIsCTScansXrays " chart
+    const data_MRIsCTScansXrays   = {
+        labels: ['Adept Fuyu-8B', 'Qwen-VL-7B-Chat', 'InstructBLIP-T5-XXL', 'LLaVA-1.5-13B', 'BLIP-2 FLAN-T5-XXL', 'Yi-VL-34B', 'LLaVA-1.6-34B', 'InternVL-Chat-V1.2', 'VILA1.5', 'GPT-4V'],
+        datasets: [{
+            data: [21.7, 36.9, 33.3, 39.4, 29.8, 44.9, 51.5, 48, 48.5, 50.0],
+            backgroundColor: ['rgba(196, 123, 160, 0.6)', 'rgba(245, 123, 113, 0.6)', 'rgba(255, 208, 80, 0.6)', 'rgba(110, 194, 134, 0.6)', 'rgba(255, 153, 78, 0.6)', 'rgba(42, 149, 235, 0.6)','rgba(183, 156, 220, 0.6)' ,'rgba(143, 169, 209, 0.6)' ,'rgba(72, 199, 176, 0.6)' ,'rgba(117, 209, 215, 0.6)'],
+            borderColor: ['rgba(196, 123, 160, 1)', 'rgba(245, 123, 113,0.4)', 'rgba(255, 208, 80, 1)', 'rgba(110, 194, 134, 1)', 'rgba(255, 153, 78, 1)', 'rgba(42, 149, 235, 1)','rgba(183, 156, 220, 1)' ,'rgba(143, 169, 209, 1)' ,'rgba(72, 199, 176, 1)' ,  'rgba(117, 209, 215, 1)'],
+            hoverBackgroundColor: ['rgba(196, 123, 160, 1)', 'rgba(245, 123, 113,1)', 'rgba(255, 208, 80, 1)', 'rgba(110, 194, 134, 1)', 'rgba(255, 153, 78, 1)', 'rgba(42, 149, 235, 1)','rgba(183, 156, 220, 1)' ,'rgba(143, 169, 209, 1)' ,'rgba(72, 199, 176, 1)' , 'rgba(117, 209, 215, 1)']
+        }]
+    };
+    new Chart(document.getElementById('chart_MRIsCTScansXrays'), {
+        type: 'bar',
+        data: data_MRIsCTScansXrays ,
+        options: {
+        scales: {
+          y: {
+            beginAtZero: true,
+            min: 0,
+            max: 100,
+            ticks: {
+              stepSize: 20
+            }
+          },
+          x: {
+            display: false
+          }
+        },
+        plugins: {
+          legend: {
+            display: false
+          },
+          tooltip: {
+          }
+        }
+      }
+    });
+
+    // "data_SketchesAndDrafts " chart
+    const data_SketchesAndDrafts   = {
+        labels: ['Adept Fuyu-8B', 'Qwen-VL-7B-Chat', 'InstructBLIP-T5-XXL', 'LLaVA-1.5-13B', 'BLIP-2 FLAN-T5-XXL', 'Yi-VL-34B', 'LLaVA-1.6-34B', 'InternVL-Chat-V1.2', 'VILA1.5', 'GPT-4V'],
+        datasets: [{
+            data: [37.0, 32.1, 29.9, 38.0, 33.7, 45.7, 45.7, 48.9, 52.7, 55.4],
+            backgroundColor: ['rgba(196, 123, 160, 0.6)', 'rgba(245, 123, 113, 0.6)', 'rgba(255, 208, 80, 0.6)', 'rgba(110, 194, 134, 0.6)', 'rgba(255, 153, 78, 0.6)', 'rgba(42, 149, 235, 0.6)','rgba(183, 156, 220, 0.6)' ,'rgba(143, 169, 209, 0.6)' ,'rgba(72, 199, 176, 0.6)' ,'rgba(117, 209, 215, 0.6)'],
+            borderColor: ['rgba(196, 123, 160, 1)', 'rgba(245, 123, 113,0.4)', 'rgba(255, 208, 80, 1)', 'rgba(110, 194, 134, 1)', 'rgba(255, 153, 78, 1)', 'rgba(42, 149, 235, 1)','rgba(183, 156, 220, 1)' ,'rgba(143, 169, 209, 1)' ,'rgba(72, 199, 176, 1)' ,  'rgba(117, 209, 215, 1)'],
+            hoverBackgroundColor: ['rgba(196, 123, 160, 1)', 'rgba(245, 123, 113,1)', 'rgba(255, 208, 80, 1)', 'rgba(110, 194, 134, 1)', 'rgba(255, 153, 78, 1)', 'rgba(42, 149, 235, 1)','rgba(183, 156, 220, 1)' ,'rgba(143, 169, 209, 1)' ,'rgba(72, 199, 176, 1)' , 'rgba(117, 209, 215, 1)']
+        }]
+    };
+    new Chart(document.getElementById('chart_SketchesAndDrafts'), {
+        type: 'bar',
+        data: data_SketchesAndDrafts ,
+        options: {
+        scales: {
+          y: {
+            beginAtZero: true,
+            min: 0,
+            max: 100,
+            ticks: {
+              stepSize: 20
+            }
+          },
+          x: {
+            display: false
+          }
+        },
+        plugins: {
+          legend: {
+            display: false
+          },
+          tooltip: {
+          }
+        }
+      }
+    });
+
+    // "data_Maps " chart
+    const data_Maps   = {
+        labels: ['Adept Fuyu-8B', 'Qwen-VL-7B-Chat', 'InstructBLIP-T5-XXL', 'LLaVA-1.5-13B', 'BLIP-2 FLAN-T5-XXL', 'Yi-VL-34B', 'LLaVA-1.6-34B', 'InternVL-Chat-V1.2', 'VILA1.5', 'GPT-4V'],
+        datasets: [{
+            data: [38.2, 36.5, 45.9, 47.6, 43.5, 52.4, 58.2, 58.2, 62.4, 61.8],
+            backgroundColor: ['rgba(196, 123, 160, 0.6)', 'rgba(245, 123, 113, 0.6)', 'rgba(255, 208, 80, 0.6)', 'rgba(110, 194, 134, 0.6)', 'rgba(255, 153, 78, 0.6)', 'rgba(42, 149, 235, 0.6)','rgba(183, 156, 220, 0.6)' ,'rgba(143, 169, 209, 0.6)' ,'rgba(72, 199, 176, 0.6)' ,'rgba(117, 209, 215, 0.6)'],
+            borderColor: ['rgba(196, 123, 160, 1)', 'rgba(245, 123, 113,0.4)', 'rgba(255, 208, 80, 1)', 'rgba(110, 194, 134, 1)', 'rgba(255, 153, 78, 1)', 'rgba(42, 149, 235, 1)','rgba(183, 156, 220, 1)' ,'rgba(143, 169, 209, 1)' ,'rgba(72, 199, 176, 1)' ,  'rgba(117, 209, 215, 1)'],
+            hoverBackgroundColor: ['rgba(196, 123, 160, 1)', 'rgba(245, 123, 113,1)', 'rgba(255, 208, 80, 1)', 'rgba(110, 194, 134, 1)', 'rgba(255, 153, 78, 1)', 'rgba(42, 149, 235, 1)','rgba(183, 156, 220, 1)' ,'rgba(143, 169, 209, 1)' ,'rgba(72, 199, 176, 1)' , 'rgba(117, 209, 215, 1)']
+        }]
+    };
+    new Chart(document.getElementById('chart_Maps'), {
+        type: 'bar',
+        data: data_Maps ,
+        options: {
+        scales: {
+          y: {
+            beginAtZero: true,
+            min: 0,
+            max: 100,
+            ticks: {
+              stepSize: 20
+            }
+          },
+          x: {
+            display: false
+          }
+        },
+        plugins: {
+          legend: {
+            display: false
+          },
+          tooltip: {
+          }
+        }
+      }
+    });
+
+    // "data_TechnicalBlueprints " chart
+    const data_TechnicalBlueprints   = {
+        labels: ['Adept Fuyu-8B', 'Qwen-VL-7B-Chat', 'InstructBLIP-T5-XXL', 'LLaVA-1.5-13B', 'BLIP-2 FLAN-T5-XXL', 'Yi-VL-34B', 'LLaVA-1.6-34B', 'InternVL-Chat-V1.2', 'VILA1.5', 'GPT-4V'],
+        datasets: [{
+            data: [24.7, 25.9, 28.4, 25.3, 27.8, 30.9, 37.7, 40.1, 36.4, 38.9],
+            backgroundColor: ['rgba(196, 123, 160, 0.6)', 'rgba(245, 123, 113, 0.6)', 'rgba(255, 208, 80, 0.6)', 'rgba(110, 194, 134, 0.6)', 'rgba(255, 153, 78, 0.6)', 'rgba(42, 149, 235, 0.6)','rgba(183, 156, 220, 0.6)' ,'rgba(143, 169, 209, 0.6)' ,'rgba(72, 199, 176, 0.6)' ,'rgba(117, 209, 215, 0.6)'],
+            borderColor: ['rgba(196, 123, 160, 1)', 'rgba(245, 123, 113,0.4)', 'rgba(255, 208, 80, 1)', 'rgba(110, 194, 134, 1)', 'rgba(255, 153, 78, 1)', 'rgba(42, 149, 235, 1)','rgba(183, 156, 220, 1)' ,'rgba(143, 169, 209, 1)' ,'rgba(72, 199, 176, 1)' ,  'rgba(117, 209, 215, 1)'],
+            hoverBackgroundColor: ['rgba(196, 123, 160, 1)', 'rgba(245, 123, 113,1)', 'rgba(255, 208, 80, 1)', 'rgba(110, 194, 134, 1)', 'rgba(255, 153, 78, 1)', 'rgba(42, 149, 235, 1)','rgba(183, 156, 220, 1)' ,'rgba(143, 169, 209, 1)' ,'rgba(72, 199, 176, 1)' , 'rgba(117, 209, 215, 1)']
+        }]
+    };
+    new Chart(document.getElementById('chart_TechnicalBlueprints'), {
+        type: 'bar',
+        data: data_TechnicalBlueprints ,
+        options: {
+        scales: {
+          y: {
+            beginAtZero: true,
+            min: 0,
+            max: 100,
+            ticks: {
+              stepSize: 20
+            }
+          },
+          x: {
+            display: false
+          }
+        },
+        plugins: {
+          legend: {
+            display: false
+          },
+          tooltip: {
+          }
+        }
+      }
+    });
+
+    // "data_TreesAndGraphs " chart
+    const data_TreesAndGraphs   = {
+        labels: ['Adept Fuyu-8B', 'Qwen-VL-7B-Chat', 'InstructBLIP-T5-XXL', 'LLaVA-1.5-13B', 'BLIP-2 FLAN-T5-XXL', 'Yi-VL-34B', 'LLaVA-1.6-34B', 'InternVL-Chat-V1.2', 'VILA1.5', 'GPT-4V'],
+        datasets: [{
+            data: [30.1, 28.1, 28.8, 28.8, 34.9, 43.2, 33.6, 37, 41.1, 50.0],
+            backgroundColor: ['rgba(196, 123, 160, 0.6)', 'rgba(245, 123, 113, 0.6)', 'rgba(255, 208, 80, 0.6)', 'rgba(110, 194, 134, 0.6)', 'rgba(255, 153, 78, 0.6)', 'rgba(42, 149, 235, 0.6)','rgba(183, 156, 220, 0.6)' ,'rgba(143, 169, 209, 0.6)' ,'rgba(72, 199, 176, 0.6)' ,'rgba(117, 209, 215, 0.6)'],
+            borderColor: ['rgba(196, 123, 160, 1)', 'rgba(245, 123, 113,0.4)', 'rgba(255, 208, 80, 1)', 'rgba(110, 194, 134, 1)', 'rgba(255, 153, 78, 1)', 'rgba(42, 149, 235, 1)','rgba(183, 156, 220, 1)' ,'rgba(143, 169, 209, 1)' ,'rgba(72, 199, 176, 1)' ,  'rgba(117, 209, 215, 1)'],
+            hoverBackgroundColor: ['rgba(196, 123, 160, 1)', 'rgba(245, 123, 113,1)', 'rgba(255, 208, 80, 1)', 'rgba(110, 194, 134, 1)', 'rgba(255, 153, 78, 1)', 'rgba(42, 149, 235, 1)','rgba(183, 156, 220, 1)' ,'rgba(143, 169, 209, 1)' ,'rgba(72, 199, 176, 1)' , 'rgba(117, 209, 215, 1)']
+        }]
+    };
+    new Chart(document.getElementById('chart_TreesAndGraphs'), {
+        type: 'bar',
+        data: data_TreesAndGraphs ,
+        options: {
+        scales: {
+          y: {
+            beginAtZero: true,
+            min: 0,
+            max: 100,
+            ticks: {
+              stepSize: 20
+            }
+          },
+          x: {
+            display: false
+          }
+        },
+        plugins: {
+          legend: {
+            display: false
+          },
+          tooltip: {
+          }
+        }
+      }
+    });
+
+    // "data_MathematicalNotations " chart
+    const data_MathematicalNotations   = {
+        labels: ['Adept Fuyu-8B', 'Qwen-VL-7B-Chat', 'InstructBLIP-T5-XXL', 'LLaVA-1.5-13B', 'BLIP-2 FLAN-T5-XXL', 'Yi-VL-34B', 'LLaVA-1.6-34B', 'InternVL-Chat-V1.2', 'VILA1.5', 'GPT-4V'],
+        datasets: [{
+            data: [15.8, 27.1, 22.6, 21.8, 21.1, 30.8, 33.8, 36.8, 34.6, 45.9],
+            backgroundColor: ['rgba(196, 123, 160, 0.6)', 'rgba(245, 123, 113, 0.6)', 'rgba(255, 208, 80, 0.6)', 'rgba(110, 194, 134, 0.6)', 'rgba(255, 153, 78, 0.6)', 'rgba(42, 149, 235, 0.6)','rgba(183, 156, 220, 0.6)' ,'rgba(143, 169, 209, 0.6)' ,'rgba(72, 199, 176, 0.6)' ,'rgba(117, 209, 215, 0.6)'],
+            borderColor: ['rgba(196, 123, 160, 1)', 'rgba(245, 123, 113,0.4)', 'rgba(255, 208, 80, 1)', 'rgba(110, 194, 134, 1)', 'rgba(255, 153, 78, 1)', 'rgba(42, 149, 235, 1)','rgba(183, 156, 220, 1)' ,'rgba(143, 169, 209, 1)' ,'rgba(72, 199, 176, 1)' ,  'rgba(117, 209, 215, 1)'],
+            hoverBackgroundColor: ['rgba(196, 123, 160, 1)', 'rgba(245, 123, 113,1)', 'rgba(255, 208, 80, 1)', 'rgba(110, 194, 134, 1)', 'rgba(255, 153, 78, 1)', 'rgba(42, 149, 235, 1)','rgba(183, 156, 220, 1)' ,'rgba(143, 169, 209, 1)' ,'rgba(72, 199, 176, 1)' , 'rgba(117, 209, 215, 1)']
+        }]
+    };
+    new Chart(document.getElementById('chart_MathematicalNotations'), {
+        type: 'bar',
+        data: data_MathematicalNotations ,
+        options: {
+        scales: {
+          y: {
+            beginAtZero: true,
+            min: 0,
+            max: 100,
+            ticks: {
+              stepSize: 20
+            }
+          },
+          x: {
+            display: false
+          }
+        },
+        plugins: {
+          legend: {
+            display: false
+          },
+          tooltip: {
+          }
+        }
+      }
+    });
+
+    // "data_ComicsAndCartoons " chart
+    const data_ComicsAndCartoons   = {
+        labels: ['Adept Fuyu-8B', 'Qwen-VL-7B-Chat', 'InstructBLIP-T5-XXL', 'LLaVA-1.5-13B', 'BLIP-2 FLAN-T5-XXL', 'Yi-VL-34B', 'LLaVA-1.6-34B', 'InternVL-Chat-V1.2', 'VILA1.5', 'GPT-4V'],
+        datasets: [{
+            data: [29.0, 51.9, 49.6, 54.2, 51.1, 64.9, 63.4, 71, 74.8, 68.7],
+            backgroundColor: ['rgba(196, 123, 160, 0.6)', 'rgba(245, 123, 113, 0.6)', 'rgba(255, 208, 80, 0.6)', 'rgba(110, 194, 134, 0.6)', 'rgba(255, 153, 78, 0.6)', 'rgba(42, 149, 235, 0.6)','rgba(183, 156, 220, 0.6)' ,'rgba(143, 169, 209, 0.6)' ,'rgba(72, 199, 176, 0.6)' ,'rgba(117, 209, 215, 0.6)'],
+            borderColor: ['rgba(196, 123, 160, 1)', 'rgba(245, 123, 113,0.4)', 'rgba(255, 208, 80, 1)', 'rgba(110, 194, 134, 1)', 'rgba(255, 153, 78, 1)', 'rgba(42, 149, 235, 1)','rgba(183, 156, 220, 1)' ,'rgba(143, 169, 209, 1)' ,'rgba(72, 199, 176, 1)' ,  'rgba(117, 209, 215, 1)'],
+            hoverBackgroundColor: ['rgba(196, 123, 160, 1)', 'rgba(245, 123, 113,1)', 'rgba(255, 208, 80, 1)', 'rgba(110, 194, 134, 1)', 'rgba(255, 153, 78, 1)', 'rgba(42, 149, 235, 1)','rgba(183, 156, 220, 1)' ,'rgba(143, 169, 209, 1)' ,'rgba(72, 199, 176, 1)' , 'rgba(117, 209, 215, 1)']
+        }]
+    };
+    new Chart(document.getElementById('chart_ComicsAndCartoons'), {
+        type: 'bar',
+        data: data_ComicsAndCartoons ,
+        options: {
+        scales: {
+          y: {
+            beginAtZero: true,
+            min: 0,
+            max: 100,
+            ticks: {
+              stepSize: 20
+            }
+          },
+          x: {
+            display: false
+          }
+        },
+        plugins: {
+          legend: {
+            display: false
+          },
+          tooltip: {
+          }
+        }
+      }
+    });
+
+    // "data_Sculpture " chart
+    const data_Sculpture   = {
+        labels: ['Adept Fuyu-8B', 'Qwen-VL-7B-Chat', 'InstructBLIP-T5-XXL', 'LLaVA-1.5-13B', 'BLIP-2 FLAN-T5-XXL', 'Yi-VL-34B', 'LLaVA-1.6-34B', 'InternVL-Chat-V1.2', 'VILA1.5', 'GPT-4V'],
+        datasets: [{
+            data: [30.8, 46.2, 49.6, 51.3, 53.0, 65.8, 69.2, 76.9, 71.8, 76.1],
+            backgroundColor: ['rgba(196, 123, 160, 0.6)', 'rgba(245, 123, 113, 0.6)', 'rgba(255, 208, 80, 0.6)', 'rgba(110, 194, 134, 0.6)', 'rgba(255, 153, 78, 0.6)', 'rgba(42, 149, 235, 0.6)','rgba(183, 156, 220, 0.6)' ,'rgba(143, 169, 209, 0.6)' ,'rgba(72, 199, 176, 0.6)' ,'rgba(117, 209, 215, 0.6)'],
+            borderColor: ['rgba(196, 123, 160, 1)', 'rgba(245, 123, 113,0.4)', 'rgba(255, 208, 80, 1)', 'rgba(110, 194, 134, 1)', 'rgba(255, 153, 78, 1)', 'rgba(42, 149, 235, 1)','rgba(183, 156, 220, 1)' ,'rgba(143, 169, 209, 1)' ,'rgba(72, 199, 176, 1)' ,  'rgba(117, 209, 215, 1)'],
+            hoverBackgroundColor: ['rgba(196, 123, 160, 1)', 'rgba(245, 123, 113,1)', 'rgba(255, 208, 80, 1)', 'rgba(110, 194, 134, 1)', 'rgba(255, 153, 78, 1)', 'rgba(42, 149, 235, 1)','rgba(183, 156, 220, 1)' ,'rgba(143, 169, 209, 1)' ,'rgba(72, 199, 176, 1)' , 'rgba(117, 209, 215, 1)']
+        }]
+    };
+    new Chart(document.getElementById('chart_Sculpture'), {
+        type: 'bar',
+        data: data_Sculpture ,
+        options: {
+        scales: {
+          y: {
+            beginAtZero: true,
+            min: 0,
+            max: 100,
+            ticks: {
+              stepSize: 20
+            }
+          },
+          x: {
+            display: false
+          }
+        },
+        plugins: {
+          legend: {
+            display: false
+          },
+          tooltip: {
+          }
+        }
+      }
+    });
+
+    // "data_Portraits " chart
+    const data_Portraits   = {
+        labels: ['Adept Fuyu-8B', 'Qwen-VL-7B-Chat', 'InstructBLIP-T5-XXL', 'LLaVA-1.5-13B', 'BLIP-2 FLAN-T5-XXL', 'Yi-VL-34B', 'LLaVA-1.6-34B', 'InternVL-Chat-V1.2', 'VILA1.5', 'GPT-4V'],
+        datasets: [{
+            data: [20.9, 52.7, 46.2, 54.9, 47.3, 62.6, 62.6, 67, 70.3, 70.3],
+            backgroundColor: ['rgba(196, 123, 160, 0.6)', 'rgba(245, 123, 113, 0.6)', 'rgba(255, 208, 80, 0.6)', 'rgba(110, 194, 134, 0.6)', 'rgba(255, 153, 78, 0.6)', 'rgba(42, 149, 235, 0.6)','rgba(183, 156, 220, 0.6)' ,'rgba(143, 169, 209, 0.6)' ,'rgba(72, 199, 176, 0.6)' ,'rgba(117, 209, 215, 0.6)'],
+            borderColor: ['rgba(196, 123, 160, 1)', 'rgba(245, 123, 113,0.4)', 'rgba(255, 208, 80, 1)', 'rgba(110, 194, 134, 1)', 'rgba(255, 153, 78, 1)', 'rgba(42, 149, 235, 1)','rgba(183, 156, 220, 1)' ,'rgba(143, 169, 209, 1)' ,'rgba(72, 199, 176, 1)' ,  'rgba(117, 209, 215, 1)'],
+            hoverBackgroundColor: ['rgba(196, 123, 160, 1)', 'rgba(245, 123, 113,1)', 'rgba(255, 208, 80, 1)', 'rgba(110, 194, 134, 1)', 'rgba(255, 153, 78, 1)', 'rgba(42, 149, 235, 1)','rgba(183, 156, 220, 1)' ,'rgba(143, 169, 209, 1)' ,'rgba(72, 199, 176, 1)' , 'rgba(117, 209, 215, 1)']
+        }]
+    };
+    new Chart(document.getElementById('chart_Portraits'), {
+        type: 'bar',
+        data: data_Portraits ,
+        options: {
+        scales: {
+          y: {
+            beginAtZero: true,
+            min: 0,
+            max: 100,
+            ticks: {
+              stepSize: 20
+            }
+          },
+          x: {
+            display: false
+          }
+        },
+        plugins: {
+          legend: {
+            display: false
+          },
+          tooltip: {
+          }
+        }
+      }
+    });
+
+    // "data_Screenshots " chart
+    const data_Screenshots   = {
+        labels: ['Adept Fuyu-8B', 'Qwen-VL-7B-Chat', 'InstructBLIP-T5-XXL', 'LLaVA-1.5-13B', 'BLIP-2 FLAN-T5-XXL', 'Yi-VL-34B', 'LLaVA-1.6-34B', 'InternVL-Chat-V1.2', 'VILA1.5', 'GPT-4V'],
+        datasets: [{
+            data: [38.6, 35.7, 38.6, 34.3, 47.1, 52.9, 60, 51.4, 57.1, 65.7],
+            backgroundColor: ['rgba(196, 123, 160, 0.6)', 'rgba(245, 123, 113, 0.6)', 'rgba(255, 208, 80, 0.6)', 'rgba(110, 194, 134, 0.6)', 'rgba(255, 153, 78, 0.6)', 'rgba(42, 149, 235, 0.6)','rgba(183, 156, 220, 0.6)' ,'rgba(143, 169, 209, 0.6)' ,'rgba(72, 199, 176, 0.6)' ,'rgba(117, 209, 215, 0.6)'],
+            borderColor: ['rgba(196, 123, 160, 1)', 'rgba(245, 123, 113,0.4)', 'rgba(255, 208, 80, 1)', 'rgba(110, 194, 134, 1)', 'rgba(255, 153, 78, 1)', 'rgba(42, 149, 235, 1)','rgba(183, 156, 220, 1)' ,'rgba(143, 169, 209, 1)' ,'rgba(72, 199, 176, 1)' ,  'rgba(117, 209, 215, 1)'],
+            hoverBackgroundColor: ['rgba(196, 123, 160, 1)', 'rgba(245, 123, 113,1)', 'rgba(255, 208, 80, 1)', 'rgba(110, 194, 134, 1)', 'rgba(255, 153, 78, 1)', 'rgba(42, 149, 235, 1)','rgba(183, 156, 220, 1)' ,'rgba(143, 169, 209, 1)' ,'rgba(72, 199, 176, 1)' , 'rgba(117, 209, 215, 1)']
+        }]
+    };
+    new Chart(document.getElementById('chart_Screenshots'), {
+        type: 'bar',
+        data: data_Screenshots ,
+        options: {
+        scales: {
+          y: {
+            beginAtZero: true,
+            min: 0,
+            max: 100,
+            ticks: {
+              stepSize: 20
+            }
+          },
+          x: {
+            display: false
+          }
+        },
+        plugins: {
+          legend: {
+            display: false
+          },
+          tooltip: {
+          }
+        }
+      }
+    });
+
+    // "data_Other " chart
+    const data_Other   = {
+        labels: ['Adept Fuyu-8B', 'Qwen-VL-7B-Chat', 'InstructBLIP-T5-XXL', 'LLaVA-1.5-13B', 'BLIP-2 FLAN-T5-XXL', 'Yi-VL-34B', 'LLaVA-1.6-34B', 'InternVL-Chat-V1.2', 'VILA1.5', 'GPT-4V'],
+        datasets: [{
+            data: [28.3, 38.3, 50.0, 51.7, 58.3, 60, 61.7, 60, 68.3, 68.3],
+            backgroundColor: ['rgba(196, 123, 160, 0.6)', 'rgba(245, 123, 113, 0.6)', 'rgba(255, 208, 80, 0.6)', 'rgba(110, 194, 134, 0.6)', 'rgba(255, 153, 78, 0.6)', 'rgba(42, 149, 235, 0.6)','rgba(183, 156, 220, 0.6)' ,'rgba(143, 169, 209, 0.6)' ,'rgba(72, 199, 176, 0.6)' ,'rgba(117, 209, 215, 0.6)'],
+            borderColor: ['rgba(196, 123, 160, 1)', 'rgba(245, 123, 113,0.4)', 'rgba(255, 208, 80, 1)', 'rgba(110, 194, 134, 1)', 'rgba(255, 153, 78, 1)', 'rgba(42, 149, 235, 1)','rgba(183, 156, 220, 1)' ,'rgba(143, 169, 209, 1)' ,'rgba(72, 199, 176, 1)' ,  'rgba(117, 209, 215, 1)'],
+            hoverBackgroundColor: ['rgba(196, 123, 160, 1)', 'rgba(245, 123, 113,1)', 'rgba(255, 208, 80, 1)', 'rgba(110, 194, 134, 1)', 'rgba(255, 153, 78, 1)', 'rgba(42, 149, 235, 1)','rgba(183, 156, 220, 1)' ,'rgba(143, 169, 209, 1)' ,'rgba(72, 199, 176, 1)' , 'rgba(117, 209, 215, 1)']
+        }]
+    };
+    new Chart(document.getElementById('chart_Other'), {
+        type: 'bar',
+        data: data_Other ,
+        options: {
+        scales: {
+          y: {
+            beginAtZero: true,
+            min: 0,
+            max: 100,
+            ticks: {
+              stepSize: 20
+            }
+          },
+          x: {
+            display: false
+          }
+        },
+        plugins: {
+          legend: {
+            display: false
+          },
+          tooltip: {
+          }
+        }
+      }
+    });
+
+    // "data_Poster " chart
+    const data_Poster   = {
+        labels: ['Adept Fuyu-8B', 'Qwen-VL-7B-Chat', 'InstructBLIP-T5-XXL', 'LLaVA-1.5-13B', 'BLIP-2 FLAN-T5-XXL', 'Yi-VL-34B', 'LLaVA-1.6-34B', 'InternVL-Chat-V1.2', 'VILA1.5', 'GPT-4V'],
+        datasets: [{
+            data: [38.6, 50.9, 52.6, 61.4, 64.9, 66.7, 68.4, 71.9, 75.4, 80.7],
+            backgroundColor: ['rgba(196, 123, 160, 0.6)', 'rgba(245, 123, 113, 0.6)', 'rgba(255, 208, 80, 0.6)', 'rgba(110, 194, 134, 0.6)', 'rgba(255, 153, 78, 0.6)', 'rgba(42, 149, 235, 0.6)','rgba(183, 156, 220, 0.6)' ,'rgba(143, 169, 209, 0.6)' ,'rgba(72, 199, 176, 0.6)' ,'rgba(117, 209, 215, 0.6)'],
+            borderColor: ['rgba(196, 123, 160, 1)', 'rgba(245, 123, 113,0.4)', 'rgba(255, 208, 80, 1)', 'rgba(110, 194, 134, 1)', 'rgba(255, 153, 78, 1)', 'rgba(42, 149, 235, 1)','rgba(183, 156, 220, 1)' ,'rgba(143, 169, 209, 1)' ,'rgba(72, 199, 176, 1)' ,  'rgba(117, 209, 215, 1)'],
+            hoverBackgroundColor: ['rgba(196, 123, 160, 1)', 'rgba(245, 123, 113,1)', 'rgba(255, 208, 80, 1)', 'rgba(110, 194, 134, 1)', 'rgba(255, 153, 78, 1)', 'rgba(42, 149, 235, 1)','rgba(183, 156, 220, 1)' ,'rgba(143, 169, 209, 1)' ,'rgba(72, 199, 176, 1)' , 'rgba(117, 209, 215, 1)']
+        }]
+    };
+    new Chart(document.getElementById('chart_Poster'), {
+        type: 'bar',
+        data: data_Poster ,
+        options: {
+        scales: {
+          y: {
+            beginAtZero: true,
+            min: 0,
+            max: 100,
+            ticks: {
+              stepSize: 20
+            }
+          },
+          x: {
+            display: false
+          }
+        },
+        plugins: {
+          legend: {
+            display: false
+          },
+          tooltip: {
+          }
+        }
+      }
+    });
+
+    // "data_IconsAndSymbols " chart
+    const data_IconsAndSymbols   = {
+        labels: ['Adept Fuyu-8B', 'Qwen-VL-7B-Chat', 'InstructBLIP-T5-XXL', 'LLaVA-1.5-13B', 'BLIP-2 FLAN-T5-XXL', 'Yi-VL-34B', 'LLaVA-1.6-34B', 'InternVL-Chat-V1.2', 'VILA1.5', 'GPT-4V'],
+        datasets: [{
+            data: [23.8, 66.7, 57.1, 59.5, 59.5, 73.8, 73.8, 76.2, 81, 78.6],
+            backgroundColor: ['rgba(196, 123, 160, 0.6)', 'rgba(245, 123, 113, 0.6)', 'rgba(255, 208, 80, 0.6)', 'rgba(110, 194, 134, 0.6)', 'rgba(255, 153, 78, 0.6)', 'rgba(42, 149, 235, 0.6)','rgba(183, 156, 220, 0.6)' ,'rgba(143, 169, 209, 0.6)' ,'rgba(72, 199, 176, 0.6)' ,'rgba(117, 209, 215, 0.6)'],
+            borderColor: ['rgba(196, 123, 160, 1)', 'rgba(245, 123, 113,0.4)', 'rgba(255, 208, 80, 1)', 'rgba(110, 194, 134, 1)', 'rgba(255, 153, 78, 1)', 'rgba(42, 149, 235, 1)','rgba(183, 156, 220, 1)' ,'rgba(143, 169, 209, 1)' ,'rgba(72, 199, 176, 1)' ,  'rgba(117, 209, 215, 1)'],
+            hoverBackgroundColor: ['rgba(196, 123, 160, 1)', 'rgba(245, 123, 113,1)', 'rgba(255, 208, 80, 1)', 'rgba(110, 194, 134, 1)', 'rgba(255, 153, 78, 1)', 'rgba(42, 149, 235, 1)','rgba(183, 156, 220, 1)' ,'rgba(143, 169, 209, 1)' ,'rgba(72, 199, 176, 1)' , 'rgba(117, 209, 215, 1)']
+        }]
+    };
+    new Chart(document.getElementById('chart_IconsAndSymbols'), {
+        type: 'bar',
+        data: data_IconsAndSymbols ,
+        options: {
+        scales: {
+          y: {
+            beginAtZero: true,
+            min: 0,
+            max: 100,
+            ticks: {
+              stepSize: 20
+            }
+          },
+          x: {
+            display: false
+          }
+        },
+        plugins: {
+          legend: {
+            display: false
+          },
+          tooltip: {
+          }
+        }
+      }
+    });
+
+    // "data_HistoricalTimelines " chart
+    const data_HistoricalTimelines   = {
+        labels: ['Adept Fuyu-8B', 'Qwen-VL-7B-Chat', 'InstructBLIP-T5-XXL', 'LLaVA-1.5-13B', 'BLIP-2 FLAN-T5-XXL', 'Yi-VL-34B', 'LLaVA-1.6-34B', 'InternVL-Chat-V1.2', 'VILA1.5', 'GPT-4V'],
+        datasets: [{
+            data: [30.0, 36.7, 40.0, 43.3, 43.3, 50, 66.7, 63.3, 63.3, 63.3],
+            backgroundColor: ['rgba(196, 123, 160, 0.6)', 'rgba(245, 123, 113, 0.6)', 'rgba(255, 208, 80, 0.6)', 'rgba(110, 194, 134, 0.6)', 'rgba(255, 153, 78, 0.6)', 'rgba(42, 149, 235, 0.6)','rgba(183, 156, 220, 0.6)' ,'rgba(143, 169, 209, 0.6)' ,'rgba(72, 199, 176, 0.6)' ,'rgba(117, 209, 215, 0.6)'],
+            borderColor: ['rgba(196, 123, 160, 1)', 'rgba(245, 123, 113,0.4)', 'rgba(255, 208, 80, 1)', 'rgba(110, 194, 134, 1)', 'rgba(255, 153, 78, 1)', 'rgba(42, 149, 235, 1)','rgba(183, 156, 220, 1)' ,'rgba(143, 169, 209, 1)' ,'rgba(72, 199, 176, 1)' ,  'rgba(117, 209, 215, 1)'],
+            hoverBackgroundColor: ['rgba(196, 123, 160, 1)', 'rgba(245, 123, 113,1)', 'rgba(255, 208, 80, 1)', 'rgba(110, 194, 134, 1)', 'rgba(255, 153, 78, 1)', 'rgba(42, 149, 235, 1)','rgba(183, 156, 220, 1)' ,'rgba(143, 169, 209, 1)' ,'rgba(72, 199, 176, 1)' , 'rgba(117, 209, 215, 1)']
+        }]
+    };
+    new Chart(document.getElementById('chart_HistoricalTimelines'), {
+        type: 'bar',
+        data: data_HistoricalTimelines ,
+        options: {
+        scales: {
+          y: {
+            beginAtZero: true,
+            min: 0,
+            max: 100,
+            ticks: {
+              stepSize: 20
+            }
+          },
+          x: {
+            display: false
+          }
+        },
+        plugins: {
+          legend: {
+            display: false
+          },
+          tooltip: {
+          }
+        }
+      }
+    });
+
+    // "data_3DRenderings " chart
+    const data_3DRenderings   = {
+        labels: ['Adept Fuyu-8B', 'Qwen-VL-7B-Chat', 'InstructBLIP-T5-XXL', 'LLaVA-1.5-13B', 'BLIP-2 FLAN-T5-XXL', 'Yi-VL-34B', 'LLaVA-1.6-34B', 'InternVL-Chat-V1.2', 'VILA1.5', 'GPT-4V'],
+        datasets: [{
+            data: [33.3, 28.6, 57.1, 38.1, 47.6, 42.9, 42.9, 57.1, 42.9, 47.6],
+            backgroundColor: ['rgba(196, 123, 160, 0.6)', 'rgba(245, 123, 113, 0.6)', 'rgba(255, 208, 80, 0.6)', 'rgba(110, 194, 134, 0.6)', 'rgba(255, 153, 78, 0.6)', 'rgba(42, 149, 235, 0.6)','rgba(183, 156, 220, 0.6)' ,'rgba(143, 169, 209, 0.6)' ,'rgba(72, 199, 176, 0.6)' ,'rgba(117, 209, 215, 0.6)'],
+            borderColor: ['rgba(196, 123, 160, 1)', 'rgba(245, 123, 113,0.4)', 'rgba(255, 208, 80, 1)', 'rgba(110, 194, 134, 1)', 'rgba(255, 153, 78, 1)', 'rgba(42, 149, 235, 1)','rgba(183, 156, 220, 1)' ,'rgba(143, 169, 209, 1)' ,'rgba(72, 199, 176, 1)' ,  'rgba(117, 209, 215, 1)'],
+            hoverBackgroundColor: ['rgba(196, 123, 160, 1)', 'rgba(245, 123, 113,1)', 'rgba(255, 208, 80, 1)', 'rgba(110, 194, 134, 1)', 'rgba(255, 153, 78, 1)', 'rgba(42, 149, 235, 1)','rgba(183, 156, 220, 1)' ,'rgba(143, 169, 209, 1)' ,'rgba(72, 199, 176, 1)' , 'rgba(117, 209, 215, 1)']
+        }]
+    };
+    new Chart(document.getElementById('chart_3DRenderings'), {
+        type: 'bar',
+        data: data_3DRenderings ,
+        options: {
+        scales: {
+          y: {
+            beginAtZero: true,
+            min: 0,
+            max: 100,
+            ticks: {
+              stepSize: 20
+            }
+          },
+          x: {
+            display: false
+          }
+        },
+        plugins: {
+          legend: {
+            display: false
+          },
+          tooltip: {
+          }
+        }
+      }
+    });
+
+    // "data_DNASequences " chart
+    const data_DNASequences   = {
+        labels: ['Adept Fuyu-8B', 'Qwen-VL-7B-Chat', 'InstructBLIP-T5-XXL', 'LLaVA-1.5-13B', 'BLIP-2 FLAN-T5-XXL', 'Yi-VL-34B', 'LLaVA-1.6-34B', 'InternVL-Chat-V1.2', 'VILA1.5', 'GPT-4V'],
+        datasets: [{
+            data: [20.0, 45.0, 25.0, 25.0, 45.0, 45, 30, 30, 30, 55.0],
+            backgroundColor: ['rgba(196, 123, 160, 0.6)', 'rgba(245, 123, 113, 0.6)', 'rgba(255, 208, 80, 0.6)', 'rgba(110, 194, 134, 0.6)', 'rgba(255, 153, 78, 0.6)', 'rgba(42, 149, 235, 0.6)','rgba(183, 156, 220, 0.6)' ,'rgba(143, 169, 209, 0.6)' ,'rgba(72, 199, 176, 0.6)' ,'rgba(117, 209, 215, 0.6)'],
+            borderColor: ['rgba(196, 123, 160, 1)', 'rgba(245, 123, 113,0.4)', 'rgba(255, 208, 80, 1)', 'rgba(110, 194, 134, 1)', 'rgba(255, 153, 78, 1)', 'rgba(42, 149, 235, 1)','rgba(183, 156, 220, 1)' ,'rgba(143, 169, 209, 1)' ,'rgba(72, 199, 176, 1)' ,  'rgba(117, 209, 215, 1)'],
+            hoverBackgroundColor: ['rgba(196, 123, 160, 1)', 'rgba(245, 123, 113,1)', 'rgba(255, 208, 80, 1)', 'rgba(110, 194, 134, 1)', 'rgba(255, 153, 78, 1)', 'rgba(42, 149, 235, 1)','rgba(183, 156, 220, 1)' ,'rgba(143, 169, 209, 1)' ,'rgba(72, 199, 176, 1)' , 'rgba(117, 209, 215, 1)']
+        }]
+    };
+    new Chart(document.getElementById('chart_DNASequences'), {
+        type: 'bar',
+        data: data_DNASequences ,
+        options: {
+        scales: {
+          y: {
+            beginAtZero: true,
+            min: 0,
+            max: 100,
+            ticks: {
+              stepSize: 20
+            }
+          },
+          x: {
+            display: false
+          }
+        },
+        plugins: {
+          legend: {
+            display: false
+          },
+          tooltip: {
+          }
+        }
+      }
+    });
+
+    // "data_Landscapes " chart
+    const data_Landscapes   = {
+        labels: ['Adept Fuyu-8B', 'Qwen-VL-7B-Chat', 'InstructBLIP-T5-XXL', 'LLaVA-1.5-13B', 'BLIP-2 FLAN-T5-XXL', 'Yi-VL-34B', 'LLaVA-1.6-34B', 'InternVL-Chat-V1.2', 'VILA1.5', 'GPT-4V'],
+        datasets: [{
+            data: [43.8, 43.8, 50.0, 31.2, 62.5, 50, 68.8, 62.5, 68.8, 68.8],
+            backgroundColor: ['rgba(196, 123, 160, 0.6)', 'rgba(245, 123, 113, 0.6)', 'rgba(255, 208, 80, 0.6)', 'rgba(110, 194, 134, 0.6)', 'rgba(255, 153, 78, 0.6)', 'rgba(42, 149, 235, 0.6)','rgba(183, 156, 220, 0.6)' ,'rgba(143, 169, 209, 0.6)' ,'rgba(72, 199, 176, 0.6)' ,'rgba(117, 209, 215, 0.6)'],
+            borderColor: ['rgba(196, 123, 160, 1)', 'rgba(245, 123, 113,0.4)', 'rgba(255, 208, 80, 1)', 'rgba(110, 194, 134, 1)', 'rgba(255, 153, 78, 1)', 'rgba(42, 149, 235, 1)','rgba(183, 156, 220, 1)' ,'rgba(143, 169, 209, 1)' ,'rgba(72, 199, 176, 1)' ,  'rgba(117, 209, 215, 1)'],
+            hoverBackgroundColor: ['rgba(196, 123, 160, 1)', 'rgba(245, 123, 113,1)', 'rgba(255, 208, 80, 1)', 'rgba(110, 194, 134, 1)', 'rgba(255, 153, 78, 1)', 'rgba(42, 149, 235, 1)','rgba(183, 156, 220, 1)' ,'rgba(143, 169, 209, 1)' ,'rgba(72, 199, 176, 1)' , 'rgba(117, 209, 215, 1)']
+        }]
+    };
+    new Chart(document.getElementById('chart_Landscapes'), {
+        type: 'bar',
+        data: data_Landscapes ,
+        options: {
+        scales: {
+          y: {
+            beginAtZero: true,
+            min: 0,
+            max: 100,
+            ticks: {
+              stepSize: 20
+            }
+          },
+          x: {
+            display: false
+          }
+        },
+        plugins: {
+          legend: {
+            display: false
+          },
+          tooltip: {
+          }
+        }
+      }
+    });
+
+    // "data_LogosAndBranding " chart
+    const data_LogosAndBranding   = {
+        labels: ['Adept Fuyu-8B', 'Qwen-VL-7B-Chat', 'InstructBLIP-T5-XXL', 'LLaVA-1.5-13B', 'BLIP-2 FLAN-T5-XXL', 'Yi-VL-34B', 'LLaVA-1.6-34B', 'InternVL-Chat-V1.2', 'VILA1.5', 'GPT-4V'],
+        datasets: [{
+            data: [21.4, 57.1, 64.3, 35.7, 50.0, 57.1, 78.6, 78.6, 71.4, 85.7],
+            backgroundColor: ['rgba(196, 123, 160, 0.6)', 'rgba(245, 123, 113, 0.6)', 'rgba(255, 208, 80, 0.6)', 'rgba(110, 194, 134, 0.6)', 'rgba(255, 153, 78, 0.6)', 'rgba(42, 149, 235, 0.6)','rgba(183, 156, 220, 0.6)' ,'rgba(143, 169, 209, 0.6)' ,'rgba(72, 199, 176, 0.6)' ,'rgba(117, 209, 215, 0.6)'],
+            borderColor: ['rgba(196, 123, 160, 1)', 'rgba(245, 123, 113,0.4)', 'rgba(255, 208, 80, 1)', 'rgba(110, 194, 134, 1)', 'rgba(255, 153, 78, 1)', 'rgba(42, 149, 235, 1)','rgba(183, 156, 220, 1)' ,'rgba(143, 169, 209, 1)' ,'rgba(72, 199, 176, 1)' ,  'rgba(117, 209, 215, 1)'],
+            hoverBackgroundColor: ['rgba(196, 123, 160, 1)', 'rgba(245, 123, 113,1)', 'rgba(255, 208, 80, 1)', 'rgba(110, 194, 134, 1)', 'rgba(255, 153, 78, 1)', 'rgba(42, 149, 235, 1)','rgba(183, 156, 220, 1)' ,'rgba(143, 169, 209, 1)' ,'rgba(72, 199, 176, 1)' , 'rgba(117, 209, 215, 1)']
+        }]
+    };
+    new Chart(document.getElementById('chart_LogosAndBranding'), {
+        type: 'bar',
+        data: data_LogosAndBranding ,
+        options: {
+        scales: {
+          y: {
+            beginAtZero: true,
+            min: 0,
+            max: 100,
+            ticks: {
+              stepSize: 20
+            }
+          },
+          x: {
+            display: false
+          }
+        },
+        plugins: {
+          legend: {
+            display: false
+          },
+          tooltip: {
+          }
+        }
+      }
+    });
+
+    // "data_Advertisements " chart
+    const data_Advertisements   = {
+        labels: ['Adept Fuyu-8B', 'Qwen-VL-7B-Chat', 'InstructBLIP-T5-XXL', 'LLaVA-1.5-13B', 'BLIP-2 FLAN-T5-XXL', 'Yi-VL-34B', 'LLaVA-1.6-34B', 'InternVL-Chat-V1.2', 'VILA1.5', 'GPT-4V'],
+        datasets: [{
+            data: [30.0, 60.0, 50.0, 60.0, 70.0, 80, 70, 80, 80, 100.0],
+            backgroundColor: ['rgba(196, 123, 160, 0.6)', 'rgba(245, 123, 113, 0.6)', 'rgba(255, 208, 80, 0.6)', 'rgba(110, 194, 134, 0.6)', 'rgba(255, 153, 78, 0.6)', 'rgba(42, 149, 235, 0.6)','rgba(183, 156, 220, 0.6)' ,'rgba(143, 169, 209, 0.6)' ,'rgba(72, 199, 176, 0.6)' ,'rgba(117, 209, 215, 0.6)'],
+            borderColor: ['rgba(196, 123, 160, 1)', 'rgba(245, 123, 113,0.4)', 'rgba(255, 208, 80, 1)', 'rgba(110, 194, 134, 1)', 'rgba(255, 153, 78, 1)', 'rgba(42, 149, 235, 1)','rgba(183, 156, 220, 1)' ,'rgba(143, 169, 209, 1)' ,'rgba(72, 199, 176, 1)' ,  'rgba(117, 209, 215, 1)'],
+            hoverBackgroundColor: ['rgba(196, 123, 160, 1)', 'rgba(245, 123, 113,1)', 'rgba(255, 208, 80, 1)', 'rgba(110, 194, 134, 1)', 'rgba(255, 153, 78, 1)', 'rgba(42, 149, 235, 1)','rgba(183, 156, 220, 1)' ,'rgba(143, 169, 209, 1)' ,'rgba(72, 199, 176, 1)' , 'rgba(117, 209, 215, 1)']
+        }]
+    };
+    new Chart(document.getElementById('chart_Advertisements'), {
+        type: 'bar',
+        data: data_Advertisements ,
+        options: {
+        scales: {
+          y: {
+            beginAtZero: true,
+            min: 0,     
+            max: 100,   
+            ticks: {
+              stepSize: 20 
+            }
+          },
+          x: {
+            display: false 
+          }
+        },
+        plugins: {
+          legend: {
+            display: false 
+          },
+          tooltip: {
+          }
+        }
+      }
+    });
+});
+
+</script>
+
+<style>
+  .hidden {
+      display: none;
+  }
+  .sortable:hover {
+      cursor: pointer;
+  }
+  .asc::after {
+      content: ' ↑';
+  }
+  .desc::after {
+      content: ' ↓';
+  }
+  #toggleButton {
+    background-color: #ffffff;
+    border: 1px solid #dddddd;
+    color: #555555;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 14px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 25px; 
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    transition-duration: 0.4s;
+  }
+
+  #toggleButton:hover {
+    box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19); /* 鼠标悬停时的阴影效果 */
+  }
+
+  table {
+    border-collapse: collapse;
+    width: 100%;
+    margin-top: 5px;
+    border: 1px solid #ddd;
+    font-size: 14px;
+  }
+
+  th, td {
+      text-align: left;
+      padding: 8px;
+  }
+
+  th {
+      background-color: #f2f2f2;
+      border-bottom: 2px solid #ddd;
+  }
+
+  td:hover {background-color: #ffffff;}
+</style>
+
+</body>
+</html>
