@@ -885,7 +885,11 @@
                 "confine": false,
                 "appendToBody": false,
                 "transitionDuration": 0.4,
-                "formatter": "{a} <br/>{b}: {c} ({d}%)",
+                formatter: function (params) {
+                    // 只显示名称、数值和百分比
+                    return params.name + ": " + params.value + " (" + params.percent + "%)";
+                },
+                // "formatter": "{a} <br/>{b}: {c} ({d}%)",
                 "textStyle": {
                     "fontSize": 10
                 },
@@ -1106,7 +1110,11 @@
                 "confine": false,
                 "appendToBody": false,
                 "transitionDuration": 0.4,
-                "formatter": "{a} <br/>{b}: {c} ({d}%)",
+                formatter: function (params) {
+                    // 只显示名称、数值和百分比
+                    return params.name + ": " + params.value + " (" + params.percent + "%)";
+                },
+                // "formatter": "{a} <br/>{b}: {c} ({d}%)",
                 "textStyle": {
                     "fontSize": 10
                 },
